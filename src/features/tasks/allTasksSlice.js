@@ -15,7 +15,8 @@ export const getAllTasks = createAsyncThunk(
   'allTasks/getTasks',
   async (_, thunkAPI) => {
     const user = getUserFromLocalStorage();
-    let url = `/taches/${user.email}`;
+    // let url = `/taches/${user.email}`;
+    let url = '/tasks'
 
     try {
       const resp = await customFetch.get(url);

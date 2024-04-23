@@ -8,6 +8,9 @@ export const urlBase =
 
 const customFetch = axios.create({
   baseURL: urlBase,
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}` 
+  }
 });
 
 /* customFetch.interceptors.request.use((config) => {
@@ -18,6 +21,15 @@ const customFetch = axios.create({
   return config;
 });
 */
+
+// customFetch.interceptors.request.use((config) => {
+//   const user = getUserFromLocalStorage();
+//   if (user) {
+//     config.headers['Authorization'] = `Bearer ${user.token}`;
+//   }
+//   return config;
+// });
+
 export const checkForUnauthorizedResponse = (error, thunkAPI) => {
   if (error.response.status === 401) {
     thunkAPI.dispatch(clearStore());

@@ -146,6 +146,7 @@ export const loginUser = createAsyncThunk(
     //return loginUserThunk('/auth/login', user, thunkAPI);
     try {
       const resp = await customFetch.post("/login", user);
+      localStorage.setItem('accessToken', resp.data.accessToken);
       // console.log(resp.data);
       return resp.data;
     } catch (error) {

@@ -3,6 +3,7 @@ import { getUserFromLocalStorage } from "../../utils/localStorage";
 import customFetch, { checkForUnauthorizedResponse } from "../../utils/axios";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const initialState = {
   isLoading: true,
@@ -14,8 +15,9 @@ export const getAllProjects = createAsyncThunk(
   "allProjects/getProjects",
   async (_, thunkAPI) => {
     const user = getUserFromLocalStorage();
-    let url = `/projects/${user.email}`;
-
+    // let url = `/projects/${user.email}`;
+    let url = `/projects`;
+        
     try {
       const resp = await customFetch.get(url);
       return resp.data;
@@ -53,7 +55,7 @@ export const updateProjectState = createAsyncThunk(
 export const createProject = createAsyncThunk(
   "allProjects/addNewProject",
   async (newProject, thunkAPI) => {
-    let url = "/projets/creerProjet";
+    let url = "/projects/create";
 
     try {
       const resp = await customFetch.post(url, newProject);

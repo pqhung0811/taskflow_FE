@@ -21,7 +21,7 @@ export const Tasks = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllTasks());
-    dispatch(setDashboardText("Tâches reçues"));
+    dispatch(setDashboardText("Tasks received"));
   }, []);
   const navigate = useNavigate();
 

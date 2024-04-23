@@ -55,12 +55,12 @@ const NewTask = ({
                 <RiCloseLine style={{ fontSize: "large" }} />
               </button>
 
-              <ProjectInfo icon={<BiTask />} text="Nouvelle tache" />
+              <ProjectInfo icon={<BiTask />} text="New task" />
             </header>
 
             <form onSubmit={handleSubmit} style={{ marginTop: "5%" }}>
               <label htmlFor="title" className="form__label">
-                Intitulé de la tache:
+                Task title:
               </label>
               <input
                 type="text"

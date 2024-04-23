@@ -16,7 +16,8 @@ const initialState = {
 export const getProjectMembers = createAsyncThunk(
   "allProjects/getProjects/getProjectMembers",
   async (projectId, thunkAPI) => {
-    let url = `/projets/${projectId}/members`;
+    let url = `/projects/${projectId}/members`;
+    // let url = `/projets/${projectId}/members`;
 
     try {
       const resp = await customFetch.get(url);
@@ -257,9 +258,9 @@ const currentProjectSlice = createSlice({
         state.isLoading = false;
         const task = payload.tache;
         state.tasks = [...state.tasks, task];
-        console.log("tache crée" + task);
+        console.log("task created" + task);
 
-        toast.success("tache créée avec succès");
+        toast.success("task created successfully");
       })
       .addCase(createTask.rejected, (state, { payload }) => {
         state.isLoading = false;

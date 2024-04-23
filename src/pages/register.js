@@ -20,7 +20,7 @@ const initialState = {
   nom: "",
   email: "",
   password: "",
-  isMember: true,
+  isMember: true
 };
 
 function Register() {
@@ -45,7 +45,7 @@ function Register() {
       return;
     }
     if (isMember) {
-      dispatch(loginUser({ email: email, password: password }));
+      dispatch(loginUser({ email: email, password: password}));
       dispatch(toggleSidebar());
 
       return;
