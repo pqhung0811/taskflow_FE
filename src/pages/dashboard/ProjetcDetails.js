@@ -54,7 +54,6 @@ export const ProjetcDetails = () => {
   //console.log(tasks);
   const membersDup = useSelector((store) => store.currentProject).members;
   // [...project.payload.members];
-  console.log("lmao prjdetail: " + membersDup);
   const members = membersDup.filter(
     (item, index) => membersDup.findIndex((i) => i.id === item.id) === index
   );
@@ -294,7 +293,7 @@ export const ProjetcDetails = () => {
                         border: "none",
                       }}
                     >
-                      Ajouter
+                      Add
                     </Button>
                   </div>
                 </Form>

@@ -100,7 +100,7 @@ const allProjectsSlice = createSlice({
         // state.totalProjects = payload.length;
         state.projects = payload.projects;
         state.totalProjects = payload.projects.length;
-        console.log("lmao" + payload.projects.length);
+        console.log("lmao prjslice: " + payload.projects.length);
       })
       .addCase(getAllProjects.rejected, (state, { payload }) => {
         state.isLoading = false;

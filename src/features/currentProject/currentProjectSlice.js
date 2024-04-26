@@ -58,7 +58,7 @@ export const getCurrentTask = createAsyncThunk(
 export const addMemberToProject = createAsyncThunk(
   "allProjects/getProjects/addMember",
   async (data, thunkAPI) => {
-    let url = `/projets/ajouterMembre`;
+    let url = `/projects/joinMember`;
 
     try {
       const resp = await customFetch.post(url, data);

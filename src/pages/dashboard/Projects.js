@@ -38,7 +38,7 @@ export const Projects = () => {
   const addNewProject = async () => {
     const newProject = {
       title: title,
-      chefId: getUserFromLocalStorage().id,
+      projectManageId: getUserFromLocalStorage().id,
     };
     handleCloseModal();
     await dispatch(createProject(newProject)).then(dispatch(getAllProjects()));
