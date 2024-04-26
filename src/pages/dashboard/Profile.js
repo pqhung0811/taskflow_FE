@@ -58,7 +58,7 @@ const Profile = () => {
 
   const createdProjects = projects;
   const receivedTasks = tasks;
-  const validatedTasks = tasks.filter((card) => card.etat == "VALIDEE");
+  const validatedTasks = tasks.filter((card) => card.state == "VALIDATED");
 
   const [imageUrl, setImageUrl] = useState("");
 
@@ -77,13 +77,13 @@ const Profile = () => {
     //data.append("userId", userId);
     axios.post(`${urlBase}/image/${userId}`, data).then(
       (res) => {
-        toast.success("l'image a été mise à jour");
+        toast.success("l'image has been updated");
         toggleForm();
         //dispatch(getUserImage()).then(console.log(userImage));
         getUserImage(getUserFromLocalStorage().id);
       },
       () => {
-        toast.error("l'image n'a pas été mise à jour");
+        toast.error("l'image has not been updated");
       }
     );
   }
@@ -209,7 +209,7 @@ const Profile = () => {
             }}
           >
             <MDBTypography tag="h5" style={{ marginBottom: "0" }}>
-              {user.nom}
+              {user.name}
             </MDBTypography>
           </div>
         </div>

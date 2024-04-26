@@ -12,7 +12,7 @@ import {
 } from "../features/user/userSlice";
 import { getUserFromLocalStorage } from "../utils/localStorage";
 
-const UserAvatar = ({ id, nom }) => {
+const UserAvatar = ({ id, name }) => {
   const [url, setUrl] = useState("");
   useEffect(() => {
     getUserImage(id);
@@ -21,6 +21,7 @@ const UserAvatar = ({ id, nom }) => {
   const getUserImage = (id) => {
     fetch(`${urlBase}/image/info/${id}`)
       .then((response) => {
+        console.log("lmao avatar: " + id);
         if (response.ok) return response.blob();
         return;
       })
@@ -39,7 +40,7 @@ const UserAvatar = ({ id, nom }) => {
   return url ? (
     <Avatar src={url} key={id} />
   ) : (
-    <Avatar {...stringAvatar(nom)} key={id} />
+    <Avatar {...stringAvatar(name)} key={id} />
   );
 };
 export default UserAvatar;

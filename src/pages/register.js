@@ -17,9 +17,10 @@ import {
 } from "../features/currentProject/currentProjectSlice";
 
 const initialState = {
-  nom: "",
+  name: "",
   email: "",
   password: "",
+  id: 0,
   isMember: true
 };
 
@@ -39,18 +40,18 @@ function Register() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    const { nom, email, password, isMember } = values;
-    if (!email || !password || (!isMember && !nom)) {
+    const { name, email, password, isMember, id} = values;
+    if (!email || !password || (!isMember && !name)) {
       toast.error("Please complete all fields!");
       return;
     }
     if (isMember) {
-      dispatch(loginUser({ email: email, password: password}));
+      dispatch(loginUser({ email: email, password: password, id: id}));
       dispatch(toggleSidebar());
 
       return;
     }
-    dispatch(registerUser({ nom, email, password }));
+    dispatch(registerUser({ name, email, password }));
   };
 
   const toggleMember = () => {
@@ -72,8 +73,8 @@ function Register() {
         {!values.isMember && (
           <FormRow
             type="text"
-            name="nom"
-            value={values.nom}
+            name="name"
+            value={values.name}
             handleChange={handleChange}
           />
         )}

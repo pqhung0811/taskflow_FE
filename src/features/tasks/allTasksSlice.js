@@ -67,11 +67,11 @@ const allTasksSlice = createSlice({
       })
       .addCase(getAllTasks.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.tasks = payload.taches;
+        state.tasks = payload.tasks;
         state.mapedTasks = mapData(state.tasks);
         console.log(`statemapedtasks ${state.mapedTasks.lanes}`);
-        state.totalTasks = payload.taches.length;
-        console.log(payload.taches);
+        state.totalTasks = payload.tasks.length;
+        console.log(payload.tasks);
       })
       .addCase(getAllTasks.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -83,13 +83,13 @@ const allTasksSlice = createSlice({
       .addCase(updateTaskState.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.tasks = state.tasks.map((task) => {
-          if (task.id == payload.tache.id)
-            return { ...task, etat: payload.tache.etat };
+          if (task.id == payload.task.id)
+            return { ...task, etat: payload.task.state };
           return task;
         });
         state.mapedTasks = mapData(state.tasks);
 
-        //console.log(payload.tache);
+        //console.log(payload.task);
       })
       .addCase(updateTaskState.rejected, (state, { payload }) => {
         state.isLoading = false;

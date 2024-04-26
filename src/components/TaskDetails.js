@@ -40,12 +40,13 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
   }, []);*/
 
   const { currentTask } = useSelector((store) => store.currentProject);
+  // console.log("concac " + JSON.stringify(currentTask));
   const task = currentTask;
-  const comments = task.commentaires;
+  const comments = task.comments;
 
   const updateTitle = async (newTitle) => {
     const info = { taskId: task.id, newTitle: newTitle };
-    //setTaskValues({...taskValues, titre:newTitle});
+    //setTaskValues({...taskValues, title:newTitle});
 
     dispatch(updateTaskTitle(info)).then(dispatch(getCurrentTask(taskId)));
   };
@@ -89,10 +90,14 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
   }
 
   const [editProgressFormIsOpen, setEditProgressFormIsOpen] = useState(false);
-  const [newProgress, setNewProgress] = useState(task.avancement);
+  const [newProgress, setNewProgress] = useState(task.advance);
   let displayType = "none";
   if (!chef) displayType = "block";
 
+  const deadlineDate = new Date(task.deadline);
+  const formattedDeadline = deadlineDate instanceof Date && !isNaN(deadlineDate) ? deadlineDate.toISOString().split('T')[0] : '';
+
+  console.log("lmaodeadline " + task.deadline);
   return (
     <Wrapper>
       <div className="cardinfo">
@@ -102,8 +107,8 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
             <p>Title</p>
           </div>
           <CustomInput
-            defaultValue={task.titre}
-            text={task.titre}
+            defaultValue={task.title}
+            text={task.title}
             placeholder="Enter Title"
             onSubmit={updateTitle}
             chef={chef}
@@ -131,7 +136,8 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
           </div>
           <input
             type="date"
-            value={task.deadLine}
+            // value={task.deadline}
+            value={formattedDeadline}
             min={new Date().toISOString().substr(0, 10)}
             onChange={(event) => updateDeadLine(event.target.value)}
             readOnly={!chef}

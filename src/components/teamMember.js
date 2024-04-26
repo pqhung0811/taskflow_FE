@@ -21,11 +21,11 @@ export default function TeamMember({ member }) {
   return (
     <Wrapper>
       <div className="team-member">
-        {/*<div className="initial">{getInitials(member.nom)}</div>*/}
-        <UserAvatar id={member.id} nom={member.nom} />
+        {/*<div className="initial">{getInitials(member.name)}</div>*/}
+        <UserAvatar id={member.id} name={member.name} />
 
         <div className="team-member-info">
-          <h3>{member.nom}</h3>
+          <h3>{member.name}</h3>
           <p>{member.email}</p>
         </div>
       </div>

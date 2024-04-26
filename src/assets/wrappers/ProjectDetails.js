@@ -95,7 +95,7 @@ const Wrapper = styled.section`
   .progres progress::-moz-progress-bar {
     background-color: #4caf50; /* Set the progress color for Firefox */
   }
-  .membres {
+  .members {
     margin-top: 3%;
     width: 20%;
     height: 100%;

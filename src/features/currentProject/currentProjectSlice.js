@@ -44,7 +44,7 @@ export const getProjectTasks = createAsyncThunk(
 export const getCurrentTask = createAsyncThunk(
   "allTasks/getCurrentTask",
   async (taskId, thunkAPI) => {
-    let url = `/taches/tacheCourante/${taskId}`;
+    let url = `/tasks/currentTask/${taskId}`;
 
     try {
       const resp = await customFetch.get(url);
@@ -199,9 +199,9 @@ const currentProjectSlice = createSlice({
       })
       .addCase(getProjectMembers.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.members = payload.membres;
+        state.members = payload.members;
 
-        console.log(payload.membres);
+        console.log(payload.members);
       })
       .addCase(getProjectMembers.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -212,9 +212,9 @@ const currentProjectSlice = createSlice({
       })
       .addCase(getProjectTasks.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.tasks = payload.taches;
+        state.tasks = payload.tasks;
 
-        console.log(payload.taches);
+        console.log(payload.tasks);
       })
       .addCase(getProjectTasks.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -225,9 +225,9 @@ const currentProjectSlice = createSlice({
       })
       .addCase(addMemberToProject.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.members = [...state.members, payload.membre];
+        state.members = [...state.members, payload.member];
 
-        toast.success(payload.membre.nom + " est ajouté avec succés");
+        toast.success(payload.member.name + " est ajouté avec succés");
       })
       .addCase(addMemberToProject.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -239,13 +239,13 @@ const currentProjectSlice = createSlice({
       .addCase(updateTaskState.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.tasks = state.tasks.map((task) => {
-          if (task.id == payload.tache.id)
-            return { ...task, etat: payload.tache.etat };
+          if (task.id == payload.task.id)
+            return { ...task, etat: payload.task.state };
           return task;
         });
         state.mapedTasks = mapData(state.tasks);
 
-        //console.log(payload.tache);
+        //console.log(payload.task);
       })
       .addCase(updateTaskState.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -256,7 +256,7 @@ const currentProjectSlice = createSlice({
       })
       .addCase(createTask.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        const task = payload.tache;
+        const task = payload.task;
         state.tasks = [...state.tasks, task];
         console.log("task created" + task);
 
@@ -271,7 +271,7 @@ const currentProjectSlice = createSlice({
       })
       .addCase(updateTaskTitle.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        const editedTask = payload.tache;
+        const editedTask = payload.task;
 
         state.tasks = state.tasks.map((task) => {
           if (task.id === editedTask.id) {
@@ -291,7 +291,7 @@ const currentProjectSlice = createSlice({
       })
       .addCase(updateTaskDesc.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        const editedTask = payload.tache;
+        const editedTask = payload.task;
 
         state.tasks = state.tasks.map((task) => {
           if (task.id === editedTask.id) {
@@ -313,7 +313,7 @@ const currentProjectSlice = createSlice({
       })
       .addCase(updateTaskDeadLine.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        const editedTask = payload.tache;
+        const editedTask = payload.task;
 
         state.tasks = state.tasks.map((task) => {
           if (task.id === editedTask.id) {
@@ -333,7 +333,7 @@ const currentProjectSlice = createSlice({
       })
       .addCase(addCommentToTask.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        const editedTask = payload.tache;
+        const editedTask = payload.task;
 
         state.tasks = state.tasks.map((task) => {
           if (task.id === editedTask.id) {
@@ -356,7 +356,7 @@ const currentProjectSlice = createSlice({
       .addCase(getCurrentTask.fulfilled, (state, { payload }) => {
         state.isLoading = false;
 
-        state.currentTask = payload.tache;
+        state.currentTask = payload.task;
 
         //toast.success('Comment recorded!');
       })
@@ -369,7 +369,7 @@ const currentProjectSlice = createSlice({
       })
       .addCase(updateTaskProgress.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        const editedTask = payload.tache;
+        const editedTask = payload.task;
 
         state.currentTask = editedTask;
         //console.log("currentTask : " + state.currentTask);

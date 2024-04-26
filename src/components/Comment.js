@@ -15,14 +15,14 @@ const Comment = ({ addComment, comments }) => {
   if (Array.isArray(comments))
     data = comments.map((item) => {
       return {
-        userId: item.auteur.id,
+        userId: item.author.id,
         comId: item.id,
-        fullName: item.auteur.nom,
+        fullName: item.author.name,
         //userProfile: 'https://www.linkedin.com/in/riya-negi-8879631a9/',
         text: item.date.substring(0, 10) + " : " + item.contenu,
         avatarUrl:
           "https://ui-avatars.com/api/name=" +
-          item.auteur.nom +
+          item.author.name +
           "&background=random",
         replies: [],
       };
@@ -41,10 +41,10 @@ const Comment = ({ addComment, comments }) => {
           currentUserId: getUserFromLocalStorage().id,
           currentUserImg:
             "https://ui-avatars.com/api/name=" +
-            getUserFromLocalStorage().nom +
+            getUserFromLocalStorage().name +
             "&background=random",
 
-          currentUserFullName: getUserFromLocalStorage().nom,
+          currentUserFullName: getUserFromLocalStorage().name,
         }}
         commentData={data}
         customNoComment={() => customNoComment()}

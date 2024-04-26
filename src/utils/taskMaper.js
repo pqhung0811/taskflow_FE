@@ -2,38 +2,38 @@ export const mapData = (tasks, chef) => {
   const cards = tasks.map(
     ({
       id,
-      debut,
-      deadLine,
-      etat,
-      projet,
-      responsable,
-      titre,
-      avancement,
-      commentaires,
+      startTime,
+      deadline,
+      state,
+      project,
+      responsible,
+      title,
+      advance,
+      comments,
     }) => {
       return {
         id: `${id}`,
-        title: titre,
+        title: title,
         description: chef
-          ? `assigned to : ${responsable.nom.toUpperCase()}`
-          : `project : ${projet.nom}`,
-        label: `${deadLine.substring(0, 10)}`,
+          ? `assigned to : ${responsible.name.toUpperCase()}`
+          : `project : ${project.name}`,
+        label: `${deadline.substring(0, 10)}`,
         draggable: true,
-        debut,
-        projet,
-        avancement,
-        commentaires,
-        etat,
+        deadline,
+        project,
+        advance,
+        comments,
+        state,
       };
     }
   );
 
-  const enAttente = cards.filter((card) => card.etat == "En_ATTENTE");
-  const enCours = cards.filter((card) => card.etat == "EN_COURS");
+  const enAttente = cards.filter((card) => card.state == "ON_HOLD");
+  const enCours = cards.filter((card) => card.state == "IN_PROGRESS");
   const attenteValidation = cards.filter(
-    (card) => card.etat == "ATTENTE_VALIDATION"
+    (card) => card.state == "VALIDATION"
   );
-  const validee = cards.filter((card) => card.etat == "VALIDEE");
+  const validee = cards.filter((card) => card.state == "VALIDATED");
 
   const taskData = {
     lanes: [

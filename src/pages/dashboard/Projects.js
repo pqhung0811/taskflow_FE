@@ -76,9 +76,9 @@ export const Projects = () => {
       </div>
       <Divider sx={{ marginBottom: "2%", marginTop: "2px" }} />
       <div className="jobs">
-        {projects.map((p) => {
+        {projects.map((project) => {
           // dispatch(getTasksByProject(p.id));
-          return <Project key={p.id} {...p} isSidebarOpen={isSidebarOpen} />;
+          return <Project key={project.id} {...project} isSidebarOpen={isSidebarOpen} />;
         })}
       </div>
       {modalIsOpen && (

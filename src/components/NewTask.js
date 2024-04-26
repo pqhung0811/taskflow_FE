@@ -85,14 +85,14 @@ const NewTask = ({
                     choose a member
                   </option>
                   {membersList.map((member) => {
-                    //console.log(member.nom);
+                    //console.log(member.name);
                     return (
                       <option
-                        value={member.nom}
+                        value={member.name}
                         key={member.id}
                         style={{ color: "black" }}
                       >
-                        {member.nom}
+                        {member.name}
                       </option>
                     );
                   })}

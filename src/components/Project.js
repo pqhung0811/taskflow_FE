@@ -27,11 +27,11 @@ import UserAvatar from "./UserAvatar";
 
 const Project = ({
   id,
-  nom,
-  membres,
-  debut,
+  name,
+  members,
+  startDate,
 
-  chef,
+  projectManager,
 
   isSidebarOpen,
 }) => {
@@ -43,9 +43,9 @@ const Project = ({
     //console.log("tasks= " + tasks.length);
   }, []);
 
-  const date = moment(debut).format("MMM Do, YYYY");
-  const members = membres.filter(
-    (item, index) => membres.findIndex((i) => i.id === item.id) === index
+  const date = moment(startDate).format("MMM Do, YYYY");
+  const members1 = members.filter(
+    (item, index) => members.findIndex((i) => i.id === item.id) === index
   );
   function timePassed(dateString) {
     const date = new Date(dateString);
@@ -57,11 +57,11 @@ const Project = ({
   }
   const [tasks, setTasks] = useState([]);
   const getTasksByProject = async (projectId) =>
-    await fetch(`${urlBase}/projets/${projectId}/tasks`).then(
+    await fetch(`${urlBase}/projects/${projectId}/tasks`).then(
       async (response) => {
         if (response.ok) {
           const data = await response.json();
-          setTasks(data.taches);
+          setTasks(data.tasks);
         } else console.log(response);
         return;
       }
@@ -88,31 +88,31 @@ const Project = ({
   return (
     <Wrapper>
       <header style={{ backgroundColor: "#f3f0f8" }}>
-        {/*<div className='main-icon'>{nom.charAt(0)}</div>*/}
-        <Avatar {...stringAvatar(nom)} style={{ margin: "4%" }} />
+        {/*<div className='main-icon'>{name.charAt(0)}</div>*/}
+        <Avatar {...stringAvatar(name)} style={{ margin: "4%" }} />
         <div className="info" style={{ marginLeft: "4%" }}>
-          <h5>{nom}</h5>
+          <h5>{name}</h5>
         </div>
       </header>
       <div className="content">
         <div className="content-center">
-          <ProjectInfo icon={<FaCalendarAlt />} text={`début ${debut}`} />
+          <ProjectInfo icon={<FaCalendarAlt />} text={`start date ${startDate}`} />
           <ProjectInfo
             icon={<FaBriefcase />}
-            text={`depuis ${timePassed(debut)} jours`}
+            text={`from ${timePassed(startDate)} days`}
           />
           <ProjectInfo
             icon={<IoPeopleOutline />}
-            text={` ${tasks.length} taches`}
+            text={` ${tasks.length} tasks`}
           ></ProjectInfo>
           <ProjectInfo
             icon={<IoPeopleOutline />}
-            text={` ${members.length} membres`}
+            text={` ${members1.length} members`}
           ></ProjectInfo>
           <div style={{ height: "25", float: "right" }}>
             <AvatarGroup max={4} sx={{ marginLeft: "10%" }}>
-              {members.map((item) => {
-                return <UserAvatar id={item.id} nom={item.nom} />;
+              {members1.map((item) => {
+                return <UserAvatar id={item.id} name={item.name} />;
               })}
             </AvatarGroup>
           </div>
@@ -122,11 +122,11 @@ const Project = ({
             <Link
               to={{
                 pathname: "/project-details",
-                state: { currentProject: { id, nom, membres, debut } },
+                state: { currentProject: { id, name, members, startDate } },
               }}
               className="btn edit-btn"
               onClick={() => {
-                const project = { id, nom, membres, debut };
+                const project = { id, name, members, startDate };
                 dispatch(clearCurrentProjectState());
                 dispatch(setCurrentProject(project));
                 dispatch(getProjectTasks(project.id));
@@ -134,7 +134,7 @@ const Project = ({
                 if (isSidebarOpen) dispatch(toggleSidebar());
               }}
             >
-              Voir plus
+              See more
             </Link>
             {/*<button
                   type='button'

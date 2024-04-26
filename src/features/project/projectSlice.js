@@ -95,9 +95,12 @@ const allProjectsSlice = createSlice({
       })
       .addCase(getAllProjects.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.projects = payload.projets;
-        state.totalProjects = payload.projets.length;
-        console.log(payload.projets);
+        console.log(JSON.stringify(payload));
+        // state.projects = payload;
+        // state.totalProjects = payload.length;
+        state.projects = payload.projects;
+        state.totalProjects = payload.projects.length;
+        console.log("lmao" + payload.projects.length);
       })
       .addCase(getAllProjects.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -109,12 +112,12 @@ const allProjectsSlice = createSlice({
       .addCase(updateProjectState.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.projects = state.projects.map((project) => {
-          if (project.id == payload.tache.id)
-            return { ...project, etat: payload.tache.etat };
+          if (project.id == payload.task.id)
+            return { ...project, etat: payload.task.state };
           return project;
         });
 
-        console.log(payload.tache);
+        console.log(payload.task);
       })
       .addCase(updateProjectState.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -125,7 +128,7 @@ const allProjectsSlice = createSlice({
       })
       .addCase(createProject.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.projects = [...state.projects, payload.projet];
+        state.projects = [...state.projects, payload.project];
         console.log("project created");
         toast.success("project created successfully!");
       })
@@ -138,7 +141,7 @@ const allProjectsSlice = createSlice({
         state.isLoading = false;
         const currentProjectId = payload.idProjet;
         state.projects = state.projects.map((p) => {
-          if (p.id == currentProjectId) p.tasks = payload.taches;
+          if (p.id == currentProjectId) p.tasks = payload.tasks;
           return p;
         });
 

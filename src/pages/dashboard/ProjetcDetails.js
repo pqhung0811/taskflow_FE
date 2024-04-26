@@ -53,7 +53,8 @@ export const ProjetcDetails = () => {
   //console.log('les taches');
   //console.log(tasks);
   const membersDup = useSelector((store) => store.currentProject).members;
-  // [...project.payload.membres];
+  // [...project.payload.members];
+  console.log("lmao prjdetail: " + membersDup);
   const members = membersDup.filter(
     (item, index) => membersDup.findIndex((i) => i.id === item.id) === index
   );
@@ -74,7 +75,7 @@ export const ProjetcDetails = () => {
 
   const getAvancement = () => {
     return Math.round(
-      tasks.reduce((total, task) => total + task.avancement, 0) / tasks.length
+      tasks.reduce((total, task) => total + task.advance, 0) / tasks.length
     );
   };
   //modal
@@ -104,7 +105,7 @@ export const ProjetcDetails = () => {
   const addNewTask = () => {
     const newTask = {
       title,
-      responsableId: members.find((m) => m.nom == assignee).id,
+      reponsible: members.find((m) => m.name == assignee).id,
       deadline,
       projectId: project.payload.id,
     };
@@ -139,14 +140,14 @@ export const ProjetcDetails = () => {
     <Wrapper>
       <div className="main">
         <header>
-          {/*<div className='main-icon'>{project.payload.nom.charAt(0)}</div>*/}
+          {/*<div className='main-icon'>{project.payload.name.charAt(0)}</div>*/}
           <Avatar
-            {...stringAvatar(project.payload.nom)}
+            {...stringAvatar(project.payload.name)}
             style={{ margin: "1%" }}
           />
 
           <div className="info">
-            <h5>{project.payload.nom}</h5>
+            <h5>{project.payload.name}</h5>
           </div>
         </header>
 
@@ -232,10 +233,10 @@ export const ProjetcDetails = () => {
             className="col-md-2"
             style={{ marginTop: "5%", borderRadius: "5%", borderColor: "gray" }}
           >
-            {/*<div className="membres">*/}
+            {/*<div className="members">*/}
             <MDBCard style={{ backgroundColor: "#f9f9ff" }}>
               <MDBCardHeader style={{ alignSelf: "center" }}>
-                Membres
+                Members
               </MDBCardHeader>
 
               {members.map((member) => {
