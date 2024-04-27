@@ -30,6 +30,19 @@ const customFetch = axios.create({
 //   return config;
 // });
 
+customFetch.interceptors.request.use(
+  function(config) {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+
 export const checkForUnauthorizedResponse = (error, thunkAPI) => {
   if (error.response.status === 401) {
     thunkAPI.dispatch(clearStore());

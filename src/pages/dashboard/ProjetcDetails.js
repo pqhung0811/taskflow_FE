@@ -62,7 +62,7 @@ export const ProjetcDetails = () => {
   const [taskData, setTaskData] = useState(tasks);
 
   const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
-    const info = { idTache: cardId, nouveauEtat: targetLaneId };
+    const info = { taskId: cardId, newState: targetLaneId };
     dispatch(updateTaskState(info));
     setTaskData(tasks);
     //setBoardHeight(getMaxCardsPerLane() * 200);
@@ -104,10 +104,12 @@ export const ProjetcDetails = () => {
   const addNewTask = () => {
     const newTask = {
       title,
-      reponsible: members.find((m) => m.name == assignee).id,
+      // reponsible: members.find((m) => m.name == assignee).id,
+      email: members.find((m) => m.name == assignee).email,
       deadline,
       projectId: project.payload.id,
     };
+    console.log("project details new task: " + newTask.email + " abc " + project.payload.id);
     dispatch(createTask(newTask));
   };
   const [title, setTitle] = useState("");

@@ -30,7 +30,7 @@ export const updateTaskState = createAsyncThunk(
   'allTasks/updateTaskState',
   async (info, thunkAPI) => {
     try {
-      const resp = await customFetch.post('/taches/modifierEtat', info);
+      const resp = await customFetch.patch('/tasks/modifyState', info);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);

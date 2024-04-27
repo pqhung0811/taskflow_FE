@@ -146,7 +146,9 @@ export const loginUser = createAsyncThunk(
     //return loginUserThunk('/auth/login', user, thunkAPI);
     try {
       const resp = await customFetch.post("/login", user);
-      localStorage.setItem('accessToken', resp.data.accessToken);
+      const newAccessToken = resp.data.accessToken;
+      localStorage.removeItem('accessToken');
+      localStorage.setItem('accessToken', newAccessToken);
       // console.log(resp.data);
       return resp.data;
     } catch (error) {
@@ -203,7 +205,7 @@ export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (user, thunkAPI) => {
     try {
-      const resp = await customFetch.patch("/updateUser", user);
+      const resp = await customFetch.patch("/updateNameOfUser", user);
       // console.log(resp.data);
       return resp.data;
     } catch (error) {

@@ -50,17 +50,17 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
 
     dispatch(updateTaskTitle(info)).then(dispatch(getCurrentTask(taskId)));
   };
-  const updateDesc = async (newDesc) => {
-    const info = { taskId: task.id, newDesc: newDesc };
-    //setTaskValues({...taskValues, description:newDesc});
+  const updateDesc = async (newDescription) => {
+    const info = { taskId: task.id, newDescription: newDescription };
+    //setTaskValues({...taskValues, description:newDescription});
 
     return await dispatch(updateTaskDesc(info)).then(
       dispatch(getCurrentTask(taskId))
     );
   };
-  const updateDeadLine = async (newDeadLine) => {
+  const updateDeadLine = async (newDeadline) => {
     if (chef) {
-      const info = { taskId: task.id, newDeadLine: newDeadLine };
+      const info = { taskId: task.id, newDeadline: newDeadline };
       dispatch(updateTaskDeadLine(info)).then(dispatch(getCurrentTask(taskId)));
     } else toast.error("only the project manager can modify the deadLine");
   };
@@ -77,8 +77,8 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
 
   const updateProgress = async (value) => {
     value.preventDefault();
-    const info = { taskId: task.id, newProgres: newProgress };
-    //setTaskValues({...taskValues, description:newDesc});
+    const info = { taskId: task.id, newAdvance: newAdvances };
+    //setTaskValues({...taskValues, description:newDescription});
 
     return await dispatch(updateTaskProgress(info)).then(
       dispatch(getCurrentTask(taskId))
@@ -90,7 +90,7 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
   }
 
   const [editProgressFormIsOpen, setEditProgressFormIsOpen] = useState(false);
-  const [newProgress, setNewProgress] = useState(task.advance);
+  const [newAdvances, setNewAdvances] = useState(task.advance);
   let displayType = "none";
   if (!chef) displayType = "block";
 
@@ -148,7 +148,7 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
         <div className="cardinfo-box">
           <div className="cardinfo-box-title">
             <CheckSquare />
-            <p>Avancement</p>
+            <p className="work-progress-text">Work progress</p>
             <button
               className={chef ? "notDisplay" : "hhh"}
               style={{
@@ -170,9 +170,9 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
             className="cardinfo-box-progress-bar"
             style={{ marginBottom: "5%" }}
           >
-            <progress value={newProgress} max="100" />
+            <progress value={newAdvances} max="100" />
             <p style={{ marginLeft: "8px", color: "#6ab04c" }}>
-              {newProgress} %
+              {newAdvances} %
             </p>
           </div>
 
@@ -191,10 +191,10 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
               >
                 <input
                   type="number"
-                  value={newProgress}
+                  value={newAdvances}
                   min={0}
                   max={100}
-                  onChange={(event) => setNewProgress(event.target.value)}
+                  onChange={(event) => setNewAdvances(event.target.value)}
                   readOnly={chef}
                   autoFocus
                   style={{

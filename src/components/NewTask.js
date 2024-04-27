@@ -25,7 +25,7 @@ const NewTask = ({
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!title || !assignee) {
-      toast.error("Veuillez remplir tous les champs");
+      toast.error("Please complete all fields");
       return;
     }
     addNewTask();

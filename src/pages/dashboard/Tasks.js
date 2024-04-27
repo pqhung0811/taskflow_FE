@@ -32,7 +32,7 @@ export const Tasks = () => {
 
   //const taskData = mapData(tasks);
   const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
-    const info = { idTache: cardId, nouveauEtat: targetLaneId };
+    const info = { taskId: cardId, newState: targetLaneId };
     dispatch(updateTaskState(info));
   };
 

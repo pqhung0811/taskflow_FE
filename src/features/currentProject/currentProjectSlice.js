@@ -74,7 +74,7 @@ export const updateTaskState = createAsyncThunk(
   "allTasks/updateTaskState",
   async (info, thunkAPI) => {
     try {
-      const resp = await customFetch.post("/taches/modifierEtat", info);
+      const resp = await customFetch.patch("/tasks/modifyState", info);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -85,7 +85,7 @@ export const updateTaskTitle = createAsyncThunk(
   "allTasks/updateTaskTitle",
   async (info, thunkAPI) => {
     try {
-      const resp = await customFetch.post("/taches/modifierTitre", info);
+      const resp = await customFetch.patch("/tasks/modifyTitle", info);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -96,7 +96,7 @@ export const updateTaskDesc = createAsyncThunk(
   "allTasks/updateTaskDesc",
   async (info, thunkAPI) => {
     try {
-      const resp = await customFetch.post("/taches/modifierDescription", info);
+      const resp = await customFetch.patch("/tasks/modifyDescription", info);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -107,7 +107,7 @@ export const updateTaskProgress = createAsyncThunk(
   "allTasks/updateTaskProgress",
   async (info, thunkAPI) => {
     try {
-      const resp = await customFetch.post("/taches/modifierAvancement", info);
+      const resp = await customFetch.patch("/tasks/modifyProgress", info);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -118,7 +118,7 @@ export const addCommentToTask = createAsyncThunk(
   "allTasks/addComment",
   async (info, thunkAPI) => {
     try {
-      const resp = await customFetch.post("/taches/commenterTache", info);
+      const resp = await customFetch.post("/tasks/comment", info);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -130,7 +130,7 @@ export const updateTaskDeadLine = createAsyncThunk(
   "allTasks/updateTaskDeadLine",
   async (info, thunkAPI) => {
     try {
-      const resp = await customFetch.post("/taches/modifierDeadLine", info);
+      const resp = await customFetch.patch("/tasks/modifyDeadline", info);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -140,18 +140,20 @@ export const updateTaskDeadLine = createAsyncThunk(
 export const createTask = createAsyncThunk(
   "tasks/addNewTask",
   async (task, thunkAPI) => {
-    const tache = {
-      titre: task.title,
-      deadLine: task.deadline.toISOString(),
-      responsableId: task.responsableId,
-      projetId: task.projectId,
+    console.log("current prj slide " + task.email);
+    console.log("current prj slide " + task.deadline.toISOString(),);
+    const task1 = {
+      title: task.title,
+      deadline: task.deadline.toISOString(),
+      email: task.email,
+      projectId: task.projectId,
     };
     //console.log('tacheEnv');
     //console.log(tache.titre);
-    let url = `/taches/create`;
+    let url = `/tasks/create`;
 
     try {
-      const resp = await customFetch.post(url, tache);
+      const resp = await customFetch.post(url, task1);
 
       return resp.data;
     } catch (error) {
@@ -374,7 +376,7 @@ const currentProjectSlice = createSlice({
         state.currentTask = editedTask;
         //console.log("currentTask : " + state.currentTask);
 
-        toast.success("modified progress!");
+        toast.success("Modified progress!");
       })
       .addCase(updateTaskProgress.rejected, (state, { payload }) => {
         state.isLoading = false;
