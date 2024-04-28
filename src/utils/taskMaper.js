@@ -19,7 +19,7 @@ export const mapData = (tasks, chef) => {
           : `project : ${project.name}`,
         label: `${deadline.substring(0, 10)}`,
         draggable: true,
-        deadline,
+        startTime,
         project,
         advance,
         comments,

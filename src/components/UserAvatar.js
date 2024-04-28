@@ -5,7 +5,7 @@ import NavLinks from "./NavLinks";
 import { Avatar } from "@mui/material";
 import { stringAvatar } from "../utils/utilsFunctions";
 import React, { useEffect, useState } from "react";
-import { urlBase } from "../utils/axios";
+import customFetch, { urlBase } from "../utils/axios";
 import {
   getUserParticipationProjects,
   setDashboardText,
@@ -19,7 +19,8 @@ const UserAvatar = ({ id, name }) => {
   }, []);
 
   const getUserImage = (id) => {
-    fetch(`${urlBase}/image/info/${id}`)
+    // fetch(`${urlBase}/image/info/${id}`)
+    customFetch.get(`/image/info/${id}`)
       .then((response) => {
         console.log("lmao avatar: " + id);
         if (response.ok) return response.blob();

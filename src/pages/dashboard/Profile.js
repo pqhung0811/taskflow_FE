@@ -75,21 +75,24 @@ const Profile = () => {
     data.append("image", imageUrl);
     const userId = getUserFromLocalStorage().id;
     //data.append("userId", userId);
-    axios.post(`${urlBase}/image/${userId}`, data).then(
+    // axios.post(`${urlBase}/image/${userId}`, data)
+    customFetch.post(`/image`, data)
+    .then(
       (res) => {
-        toast.success("l'image has been updated");
+        toast.success("image has been updated");
         toggleForm();
         //dispatch(getUserImage()).then(console.log(userImage));
         getUserImage(getUserFromLocalStorage().id);
       },
       () => {
-        toast.error("l'image has not been updated");
+        toast.error("image has not been updated");
       }
     );
   }
   const [url, setUrl] = useState(userIcon);
   function getUserImage(id) {
-    fetch(`${urlBase}/image/info/${id}`)
+    // fetch(`${urlBase}/image/info/${id}`)
+    customFetch.get(`image/info/${id}`)
       .then((response) => {
         if (response.ok) return response.blob();
         return;

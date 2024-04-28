@@ -21,7 +21,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { stringAvatar } from "../utils/utilsFunctions";
 import { Avatar, AvatarGroup, Stack } from "@mui/material";
-import { urlBase } from "../utils/axios";
+import customFetch, { urlBase } from "../utils/axios";
 import userIcon from "../assets/images/user.png";
 import UserAvatar from "./UserAvatar";
 
@@ -57,8 +57,9 @@ const Project = ({
   }
   const [tasks, setTasks] = useState([]);
   const getTasksByProject = async (projectId) =>
-    await fetch(`${urlBase}/projects/${projectId}/tasks`).then(
-      async (response) => {
+    // await fetch(`${urlBase}/projects/${projectId}/tasks`).then(
+    await customFetch.get(`/projects/${projectId}/tasks`).then(
+    async (response) => {
         if (response.ok) {
           const data = await response.json();
           setTasks(data.tasks);

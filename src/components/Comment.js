@@ -19,10 +19,10 @@ const Comment = ({ addComment, comments }) => {
         comId: item.id,
         fullName: item.author.name,
         //userProfile: 'https://www.linkedin.com/in/riya-negi-8879631a9/',
-        text: item.date.substring(0, 10) + " : " + item.contenu,
+        text: item.date ? item.date.substring(0, 10) + " : " + item.content : "",
         avatarUrl:
           "https://ui-avatars.com/api/name=" +
-          item.author.name +
+          item.author.name +  
           "&background=random",
         replies: [],
       };

@@ -177,7 +177,7 @@ export const getUserParticipationProjects = createAsyncThunk(
   async (_, thunkAPI) => {
     const userId = getUserFromLocalStorage().id;
     try {
-      const resp = await customFetch.get(`/utilisateurs/${userId}/projets`);
+      const resp = await customFetch.get(`/projects`);
 
       return resp.data;
     } catch (error) {
