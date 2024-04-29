@@ -229,7 +229,7 @@ const currentProjectSlice = createSlice({
         state.isLoading = false;
         state.members = [...state.members, payload.member];
 
-        toast.success(payload.member.name + " est ajouté avec succés");
+        toast.success(payload.member.name + " is successfully added");
       })
       .addCase(addMemberToProject.rejected, (state, { payload }) => {
         state.isLoading = false;
