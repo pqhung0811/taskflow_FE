@@ -40,7 +40,6 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
   }, []);*/
 
   const { currentTask } = useSelector((store) => store.currentProject);
-  // console.log("concac " + JSON.stringify(currentTask));
   const task = currentTask;
   const comments = task.comments;
 
@@ -97,7 +96,6 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
   const deadlineDate = new Date(task.deadline);
   const formattedDeadline = deadlineDate instanceof Date && !isNaN(deadlineDate) ? deadlineDate.toISOString().split('T')[0] : '';
 
-  console.log("lmaodeadline " + task.deadline);
   return (
     <Wrapper>
       <div className="cardinfo">

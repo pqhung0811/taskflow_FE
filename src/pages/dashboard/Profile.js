@@ -50,7 +50,6 @@ const Profile = () => {
     getUserImage(getUserFromLocalStorage().id);
     dispatch(getUserParticipationProjects());
   }, []);
-  //console.log("projects" + userParticipationProjects);
 
   const [formIsOpen, setFormIsOpen] = useState(false);
   const { projects } = useSelector((store) => store.allProjects);
@@ -91,17 +90,14 @@ const Profile = () => {
   }
   const [url, setUrl] = useState(userIcon);
   function getUserImage(id) {
-    // fetch(`${urlBase}/image/info/${id}`)
-    customFetch.get(`image/info/${id}`)
+    customFetch.get(`/image/info/${id}`, { responseType: 'blob' })
       .then((response) => {
-        if (response.ok) return response.blob();
-        return;
+        if (response.status === 200) return response.data;
       })
       .then((blob) => {
         if (blob) {
           const urlx = URL.createObjectURL(blob);
           setUrl(urlx);
-          //console.log(urlx);
         }
       })
       .catch((error) => {

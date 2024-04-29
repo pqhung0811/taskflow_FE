@@ -10,7 +10,6 @@ const Comment = ({ addComment, comments }) => {
   //const { currentTask } = useSelector((store) => store.currentProject);
 
   // const comments = currentTask.commentaires;
-  console.log("comments " + comments);
   let data = [];
   if (Array.isArray(comments))
     data = comments.map((item) => {

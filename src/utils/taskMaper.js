@@ -38,7 +38,7 @@ export const mapData = (tasks, chef) => {
   const taskData = {
     lanes: [
       {
-        id: "1",
+        id: "0",
         title: "On hold",
         label: `${enAttente.length} tasks`,
         cards: enAttente,
@@ -47,7 +47,7 @@ export const mapData = (tasks, chef) => {
         disallowAddingCard: true,
       },
       {
-        id: "2",
+        id: "1",
         title: "In progress",
         label: `${enCours.length} tasks`,
         cards: enCours,
@@ -57,7 +57,7 @@ export const mapData = (tasks, chef) => {
         //cardStyle: { backgroundColor: 'blue' }
       },
       {
-        id: "3",
+        id: "2",
         title: "waiting for validation",
         label: `${attenteValidation.length} tasks`,
         cards: attenteValidation,
@@ -66,7 +66,7 @@ export const mapData = (tasks, chef) => {
         boxShadow: "2px 2px 4px 0px rgba(0,0,0,0.75)",
       },
       {
-        id: "4",
+        id: "3",
         title: "completed",
         label: `${validee.length} tasks`,
         cards: validee,

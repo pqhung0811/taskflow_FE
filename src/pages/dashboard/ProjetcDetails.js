@@ -109,7 +109,6 @@ export const ProjetcDetails = () => {
       deadline,
       projectId: project.payload.id,
     };
-    console.log("project details new task: " + newTask.email + " abc " + project.payload.id);
     dispatch(createTask(newTask));
   };
   const [title, setTitle] = useState("");

@@ -19,22 +19,18 @@ const UserAvatar = ({ id, name }) => {
   }, []);
 
   const getUserImage = (id) => {
-    // fetch(`${urlBase}/image/info/${id}`)
-    customFetch.get(`/image/info/${id}`)
+    customFetch.get(`/image/info/${id}`, { responseType: 'blob' })
       .then((response) => {
-        console.log("lmao avatar: " + id);
-        if (response.ok) return response.blob();
-        return;
+        if (response.status === 200) return response.data;   
       })
       .then((blob) => {
         if (blob) {
           const urlx = URL.createObjectURL(blob);
-
           setUrl(urlx);
         }
       })
       .catch((error) => {
-        return null;
+        setUrl(null);
       });
   };
 
