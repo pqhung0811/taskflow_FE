@@ -1,5 +1,5 @@
 import { IoBarChartSharp } from "react-icons/io5";
-import { FaProjectDiagram } from "react-icons/fa";
+import { FaProjectDiagram, FaBell } from "react-icons/fa";
 
 import { ImProfile } from "react-icons/im";
 import { FaTasks } from "react-icons/fa";
@@ -15,6 +15,7 @@ const links = [
     icon: <FaTasks />,
   },
   { id: 4, text: "profile", path: "profile", icon: <ImProfile /> },
+  { id: 5, text: "Notification", path: "notify", icon: <FaBell />}
   /*{
     id: 5,
     text: 'create project',

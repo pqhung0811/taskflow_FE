@@ -18,12 +18,13 @@ import Button from "react-bootstrap/Button";
 
 import {
   getProjectTasks,
-  updateTaskState,
   createTask,
   getProjectMembers,
   addMemberToProject,
   getCurrentProject,
   getCurrentTask,
+  updateTaskState,
+  deleteTask
 } from "../../features/currentProject/currentProjectSlice";
 import { TaskModal } from "../../components/TaskModal";
 import { IoMdAdd } from "react-icons/io";
@@ -88,6 +89,24 @@ export const ProjetcDetails = () => {
     if (!modalIsOpen) toggleModal();
     dispatch(getCurrentTask(taskId));
     setCurrentTaskId(taskId);
+  };
+
+  // const handleBeforeCardDelete = (taskId) => {
+  //   const shouldDelete = window.confirm("Are you sure you want to delete this card?");
+  //   console.log(shouldDelete);
+  //   return shouldDelete; 
+  // };
+
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const handleCardDelete = (taskId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this card?');
+    if (confirmDelete) {
+      dispatch(deleteTask(taskId));
+      setConfirmDelete(false); // Đặt lại giá trị của biến cờ
+    } else {
+      console.log('Deletion cancelled');
+    }
   };
 
   const [newTaskModalIsOpen, setNewTaskModalIsOpen] = useState(false);
@@ -216,6 +235,8 @@ export const ProjetcDetails = () => {
                 laneStyle={{ backgroundColor: " #D7CBF6" }}
                 handleDragEnd={handleDragEnd}
                 onCardClick={(cardId) => handleCardClick(cardId)}
+                // onBeforeCardDelete ={(cardId) => handleBeforeCardDelete(cardId)}
+                onCardDelete ={(cardId) => handleCardDelete(cardId)}
               >
                 <NewCardForm
                   descriptionPlaceholder="assigned to "

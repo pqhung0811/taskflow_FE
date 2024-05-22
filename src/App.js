@@ -29,6 +29,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
 
           <Route path="project-details" element={<ProjetcDetails />} />
+          <Route path="notify" />
         </Route>
         <Route path="landing" element={<Landing />} />
         <Route path="register" element={<Register />} />

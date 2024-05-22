@@ -140,8 +140,6 @@ export const updateTaskDeadLine = createAsyncThunk(
 export const createTask = createAsyncThunk(
   "tasks/addNewTask",
   async (task, thunkAPI) => {
-    console.log("current prj slide " + task.email);
-    console.log("current prj slide " + task.deadline.toISOString(),);
     const task1 = {
       title: task.title,
       deadline: task.deadline.toISOString(),
@@ -165,6 +163,52 @@ export const createTask = createAsyncThunk(
 export const getCurrentProject = (projectId) => {
   return allProjects.find((p) => p.id == projectId);
 }; */
+
+export const addFileAttachment = createAsyncThunk(
+  "tasks/addFile",
+  async (info, thunkAPI) => {
+    let url = `/tasks/addFile`;
+
+    try {
+      const resp = await customFetch.post(url, info);
+
+      return resp.data;
+    } catch (error) {
+      return checkForUnauthorizedResponse(error, thunkAPI);
+    }
+  }
+);
+
+export const deleteFileAttachment = createAsyncThunk(
+  "tasks/deleteFile",
+  async (fileId, thunkAPI) => {
+    let url = `/file/${fileId}`;
+
+    try {
+      const resp = await customFetch.delete(url, fileId);
+
+      return resp.data;
+    } catch (error) {
+      return checkForUnauthorizedResponse(error, thunkAPI);
+    }
+  }
+);
+
+export const deleteTask = createAsyncThunk(
+  "tasks/delete",
+  async (taskId, thunkAPI) => {
+    let url = `/tasks/delete/${taskId}`;
+
+    try {
+      const resp = await customFetch.delete(url);
+
+      return resp.data;
+    } catch (error) {
+      return checkForUnauthorizedResponse(error, thunkAPI);
+    }
+  }
+);
+
 const currentProjectSlice = createSlice({
   name: "currentProject",
   initialState,
@@ -240,11 +284,13 @@ const currentProjectSlice = createSlice({
       })
       .addCase(updateTaskState.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.tasks = state.tasks.map((task) => {
-          if (task.id == payload.task.id)
-            return { ...task, etat: payload.task.state };
-          return task;
-        });
+        state.tasks.forEach((task)=>{
+          if(task.id == payload.task.id){
+            console.log(task)
+            task.state = payload.task.state
+          }
+        })
+
         state.mapedTasks = mapData(state.tasks);
 
         //console.log(payload.task);
@@ -379,6 +425,61 @@ const currentProjectSlice = createSlice({
         toast.success("Modified progress!");
       })
       .addCase(updateTaskProgress.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error("there was an error connecting to the server");
+      })
+      .addCase(addFileAttachment.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addFileAttachment.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(
+          "there was an error, the file was not saved"
+        );
+      })
+      .addCase(addFileAttachment.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        const editedTask = payload.task;
+
+        state.tasks = state.tasks.map((task) => {
+          if (task.id === editedTask.id) {
+            return editedTask;
+          }
+          return task;
+        });
+
+        toast.success("File recorded!");
+      })
+      .addCase(deleteFileAttachment.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteFileAttachment.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(
+          "there was an error, the file was not deleted"
+        );
+      })
+      .addCase(deleteFileAttachment.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        const editedTask = payload.task;
+
+        state.tasks = state.tasks.map((task) => {
+          if (task.id === editedTask.id) {
+            return editedTask;
+          }
+          return task;
+        });
+
+        toast.success("File was deleted!");
+      })
+      .addCase(deleteTask.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteTask.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.tasks = state.tasks.filter(t => t.id !== payload);
+      })
+      .addCase(deleteTask.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error("there was an error connecting to the server");
       });

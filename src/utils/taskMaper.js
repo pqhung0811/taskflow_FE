@@ -10,6 +10,7 @@ export const mapData = (tasks, chef) => {
       title,
       advance,
       comments,
+      files,
     }) => {
       return {
         id: `${id}`,
@@ -24,6 +25,7 @@ export const mapData = (tasks, chef) => {
         advance,
         comments,
         state,
+        files,
       };
     }
   );

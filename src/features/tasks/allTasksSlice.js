@@ -84,7 +84,7 @@ const allTasksSlice = createSlice({
         state.isLoading = false;
         state.tasks = state.tasks.map((task) => {
           if (task.id == payload.task.id)
-            return { ...task, etat: payload.task.state };
+            return { ...task, state: payload.task.state };
           return task;
         });
         state.mapedTasks = mapData(state.tasks);

@@ -12,6 +12,7 @@ import { AiOutlineSave } from "react-icons/ai";
 import ProjectInfo from "./ProjectInfo";
 import { BiTask } from "react-icons/bi";
 import { Calendar, CheckSquare, List, Tag, Trash, Type } from "react-feather";
+import { FaPaperclip } from 'react-icons/fa'
 import CustomInput from "./CustomInput";
 import {
   updateTaskDeadLine,
@@ -20,6 +21,8 @@ import {
   addCommentToTask,
   getCurrentTask,
   updateTaskProgress,
+  addFileAttachment,
+  deleteFileAttachment,
 } from "../features/currentProject/currentProjectSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Comment from "./Comment";
@@ -30,6 +33,7 @@ import NumericInput from "react-numeric-input";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { setDashboardText } from "../features/user/userSlice";
+import File from './File';
 
 function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
   const dispatch = useDispatch();
@@ -42,6 +46,7 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
   const { currentTask } = useSelector((store) => store.currentProject);
   const task = currentTask;
   const comments = task.comments;
+  const files = task.files;
 
   const updateTitle = async (newTitle) => {
     const info = { taskId: task.id, newTitle: newTitle };
@@ -82,6 +87,28 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
     return await dispatch(updateTaskProgress(info)).then(
       dispatch(getCurrentTask(taskId))
     );
+  };
+
+  const addFile = async (data) => {
+    const formData = new FormData();
+    formData.append('file', data.file);
+    formData.append('id', task.id);
+
+    const info = formData;
+    const response = await dispatch(addFileAttachment(info))
+    dispatch(getCurrentTask(taskId));
+    dispatch(getAllTasks());
+
+    return response;
+  };
+
+  const deleteFile = async (data) => {
+    const info = data;
+    const response = await dispatch(deleteFileAttachment(info));
+    dispatch(getCurrentTask(taskId));
+    dispatch(getAllTasks());
+
+    return response;
   };
 
   function toggleEditProgressForm() {
@@ -141,6 +168,15 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
             readOnly={!chef}
           />
         </div>
+
+        <div className="cardinfo-box">
+          <div className="cardinfo-box-title">
+            <FaPaperclip /> 
+            <p>File Attachment</p>
+          </div>
+          <File files={files} addFile={addFile} deleteFile={deleteFile} />
+        </div>
+
         <header />
 
         <div className="cardinfo-box">
