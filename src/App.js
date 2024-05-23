@@ -10,6 +10,7 @@ import {
   Stats,
   SharedLayout,
   ProjetcDetails,
+  Notification,
 } from "./pages/dashboard";
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
 
           <Route path="project-details" element={<ProjetcDetails />} />
-          <Route path="notify" />
+          <Route path="notify" element={<Notification />}/>
         </Route>
         <Route path="landing" element={<Landing />} />
         <Route path="register" element={<Register />} />
