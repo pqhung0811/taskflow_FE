@@ -1,20 +1,29 @@
 import { NavLink } from 'react-router-dom';
 import links from '../utils/links';
-import React, { useEffect, useState, useCallback } from 'react';
-import useWebSocket from './UseWebSocket';
+import React, { useEffect, useState, useMemo } from 'react';
+import webSocketManager from './WebSocketContext';
+// import useCustomWebSocket from './UseWebSocket';
 
 const NavLinks = ({ toggleSidebar }) => {
   const [notificationCount, setNotificationCount] = useState(0);
 
-  const handleNewMessage = useCallback(() => {
-    setNotificationCount(prevCount => prevCount + 1);
-  }, []);
+  // const handleNewMessage = useCallback(() => {
+  //   setNotificationCount(prevCount => prevCount + 1);
+  // }, []);
 
-  const { sendMessage } = useWebSocket(handleNewMessage);
+  // const { sendMessage } = useWebSocket(handleNewMessage);
+  // const { message, setMessage, lastMessage, connected, handleSend } = useCustomWebSocket('http://localhost:8080/ws');
 
   useEffect(() => {
-    // Lấy danh sách thông báo từ máy chủ và cập nhật số lượng thông báo
-    // fetchNotifications();
+    webSocketManager.connect(); 
+    const subscription = webSocketManager.client.subscribe('/topic/messages', (message) => {
+      console.log(message.body)
+      setNotificationCount(prevCount => prevCount + 1);
+  });
+    return () => {
+        subscription.unsubscribe();
+        // webSocketManager.disconnect();
+    };
   }, []);
 
   return (

@@ -15,6 +15,7 @@ import { getAllTasks } from "../features/tasks/allTasksSlice";
 import { getAllProjects } from "../features/project/projectSlice";
 import { getUserFromLocalStorage } from "../utils/localStorage";
 import { useDispatch } from "react-redux";
+import useCustomWebSocket from "../components/UseWebSocket";
 const Home = () => {
   const dispatch = useDispatch();
   useEffect(() => {

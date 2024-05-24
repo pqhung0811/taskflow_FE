@@ -1,43 +1,50 @@
-import { useEffect, useState } from 'react';
-import { Client } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+// import { useEffect, useState } from 'react';
+// import SockJS from 'sockjs-client';
+// import { Client } from '@stomp/stompjs';
 
-const useWebSocket = (onMessageReceived) => {
-  const [client, setClient] = useState(null);
+// const useCustomWebSocket = (url) => {
+//     const [client, setClient] = useState(null);
+//     const [message, setMessage] = useState('');
+//     const [lastMessage, setLastMessage] = useState(null);
+//     const [connected, setConnected] = useState(false);
 
-  useEffect(() => {
-    const socket = new SockJS('http://localhost:8080/ws');
-    const stompClient = new Client({
-      webSocketFactory: () => socket,
-      reconnectDelay: 5000,
-      onConnect: () => {
-        console.log('Connected');
-        stompClient.subscribe('/topic/messages', (message) => {
-            console.log("mes " + message.body);
-            onMessageReceived(message.body);
-        });
-      },
-      onStompError: (frame) => {
-        console.error('Broker reported error: ' + frame.headers['message']);
-        console.error('Additional details: ' + frame.body);
-      },
-    });
+//     useEffect(() => {
+//         const socket = new SockJS(url);
+//         const stompClient = new Client({
+//             webSocketFactory: () => socket,
+//             debug: (str) => {
+//                 console.log(str);
+//             },
+//             onConnect: () => {
+//                 console.log('WebSocket connected');
+//                 setConnected(true);
+//                 stompClient.subscribe('/topic/messages', (message) => {
+//                     setLastMessage(message.body);
+//                 });
+//             },
+//             onDisconnect: () => {
+//                 console.log('WebSocket disconnected');
+//                 setConnected(false);
+//             }
+//         });
 
-    stompClient.activate();
-    setClient(stompClient);
+//         stompClient.activate();
+//         setClient(stompClient);
 
-    return () => {
-      stompClient.deactivate();
-    };
-  }, [onMessageReceived]);
+//         return () => {
+//             stompClient.deactivate();
+//         };
+//     }, [url]);
 
-  const sendMessage = (destination, message) => {
-    if (client && client.connected) {
-      client.publish({ destination, body: message });
-    }
-  };
-  
-  return { sendMessage };
-};
+//     const handleSend = () => {
+//         if (client && connected) {
+//             client.publish({ destination: '/app/yourEndpoint', body: JSON.stringify({ content: message }) });
+//         } else {
+//             console.error('WebSocket is not connected');
+//         }
+//     };
 
-export default useWebSocket;
+//     return { message, setMessage, lastMessage, connected, handleSend };
+// };
+
+// export default useCustomWebSocket;

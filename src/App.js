@@ -12,6 +12,9 @@ import {
   ProjetcDetails,
   Notification,
 } from "./pages/dashboard";
+import webSocketManager from "./components/WebSocketContext";
+import React, { useEffect } from 'react';
+
 function App() {
   return (
     <BrowserRouter>
