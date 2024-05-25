@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import customFetch from "../../utils/axios";
+import { resetNotificationCount } from "../../components/NotificationCount";
+import useNotification from "../../components/useNotification";
 //import { StatsContainer, Loading, ChartsContainer } from '../../components';
 //import { showStats } from '../../features/allJobs/allJobsSlice';
 
 export const Notification = () => {
     const [notifications, setNotifications] = useState([]);
+    const { reset } = useNotification();
 
     useEffect(() => {
         fetchNotifications();
@@ -12,25 +15,37 @@ export const Notification = () => {
 
     const fetchNotifications = async () => {
         try {
-            const response = await customFetch(`/user/notify`);
+            const response = await customFetch.get(`/user/notify`);
             setNotifications(response.data);
         } catch (error) {
             console.error("There was an error fetching the notifications!", error);
         }
     };
 
-    // const markAsRead = async (id) => {
-    //     try {
-    //         await axios.put(`/api/notifications/${id}/read`);
-    //         fetchNotifications(); // Refresh the list after marking as read
-    //     } catch (error) {
-    //         console.error("There was an error marking the notification as read!", error);
-    //     }
-    // };
+    const readAllNotifications = async () => {
+        try {
+            const response = await customFetch.patch(`/user/notifyState`);
+            reset();
+        } catch (error) {
+            console.error("There was an error fetching the notifications!", error);
+        }
+    };
+
+    const deleteNotification = async (noticeId) => {
+        try {
+            const response = await customFetch.delete(`/user/notify/${noticeId}`);
+            setNotifications((prevNotifications) => 
+                prevNotifications.filter(notification => notification.id !== noticeId)
+            );
+        } catch (error) {
+            console.error("There was an error fetching the notifications!", error);
+        }
+    }
 
     return (
         <div>
             <h1>Notifications</h1>
+            <button className="readall" onClick={() => readAllNotifications()}>Read All</button>
             <table>
                 <thead>
                     <tr>
@@ -45,10 +60,8 @@ export const Notification = () => {
                             <td>{notification.text}</td>
                             <td>{notification.read ? 'Read' : 'Unread'}</td>
                             <td>
-                                {!notification.read && (
-                                    // <button onClick={() => markAsRead(notification.id)}>Mark as Read</button>
-                                    <button>Read</button>
-                                )}
+                                {/* <button onClick={() => markAsRead(notification.id)}>Mark as Read</button> */}
+                                <button onClick={() => deleteNotification(notification.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -77,6 +90,10 @@ export const Notification = () => {
 
                 td:last-child, th:last-child {
                     border-right: none; /* Remove border from the last cell of each row */
+                }
+
+                .readall {
+                    background-color: red;
                 }
 
                 .message-column {

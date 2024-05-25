@@ -4,9 +4,11 @@ import Wrapper from "../assets/wrappers/Comment";
 import { getUserFromLocalStorage } from "../utils/localStorage";
 import { Error } from "../pages";
 import { useSelector } from "react-redux";
+import customFetch from "../utils/axios";
 //import 'react-comments-section/dist/index.css'
 
 const Comment = ({ addComment, comments }) => {
+  // const [data, setData] = useState([]); 
   //const { currentTask } = useSelector((store) => store.currentProject);
 
   // const comments = currentTask.commentaires;
@@ -32,6 +34,28 @@ const Comment = ({ addComment, comments }) => {
       No comments, be the first to comment on this task!
     </div>
   );
+
+  const editComment = async (commentId, updatedText) => {
+    try {
+      const response = await customFetch.patch(`/comments/${commentId}`, { text: updatedText });
+      const updatedData = data.map(comment =>
+        comment.comId === commentId ? { ...comment, text: response.data.text } : comment
+      );
+      // setData(updatedData);
+    } catch (error) {
+      console.error('Error editing comment:', error);
+    }
+  };
+
+  const deleteComment = async (commentId) => {
+    try {
+      await customFetch.delete(`/comments/${commentId}`);
+      const updatedData = data.filter(comment => comment.comId !== commentId);
+      // setData(updatedData);
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
+  };
 
   return (
     <Wrapper>
@@ -94,6 +118,8 @@ const Comment = ({ addComment, comments }) => {
         ) => {
           addComment(newData);
         }}
+        onEditAction={editComment}
+        onDeleteAction={deleteComment}
         currentData={(data) => {
           console.log("curent data", data);
         }}

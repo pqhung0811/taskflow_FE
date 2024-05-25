@@ -2,29 +2,42 @@ import { NavLink } from 'react-router-dom';
 import links from '../utils/links';
 import React, { useEffect, useState, useMemo } from 'react';
 import webSocketManager from './WebSocketContext';
+import { getUserFromLocalStorage } from '../utils/localStorage';
+// import { fetchNumberNotifications, getNotificationCount, incrementNotificationCount, resetNotificationCount, setNotificationCount as setManagerNotificationCount  } from './NotificationCount';
+import useNotification from './useNotification';
 // import useCustomWebSocket from './UseWebSocket';
 
 const NavLinks = ({ toggleSidebar }) => {
-  const [notificationCount, setNotificationCount] = useState(0);
-
-  // const handleNewMessage = useCallback(() => {
-  //   setNotificationCount(prevCount => prevCount + 1);
-  // }, []);
-
-  // const { sendMessage } = useWebSocket(handleNewMessage);
-  // const { message, setMessage, lastMessage, connected, handleSend } = useCustomWebSocket('http://localhost:8080/ws');
+  // const [notificationCount, setNotificationCount] = useState(getNotificationCount());
+  const { notificationCount, initializeNotifications, increment, reset } = useNotification();
+  const userId = getUserFromLocalStorage().id
 
   useEffect(() => {
+    // const initializeNotifications = async () => {
+    //   const count = await fetchNumberNotifications();
+    //   setManagerNotificationCount(count);
+    //   setNotificationCount(count);
+    // };
+    initializeNotifications();
+
     webSocketManager.connect(); 
-    const subscription = webSocketManager.client.subscribe('/topic/messages', (message) => {
-      console.log(message.body)
-      setNotificationCount(prevCount => prevCount + 1);
-  });
-    return () => {
+
+    webSocketManager.client.onConnect = () => {
+      const subscription = webSocketManager.client.subscribe(`/topic/messages/${userId}`, (message) => {
+        console.log(message.body)
+        increment();
+        // incrementNotificationCount();
+        // setManagerNotificationCount(getNotificationCount());
+        // setNotificationCount(getNotificationCount());
+      });
+      return () => {
         subscription.unsubscribe();
-        // webSocketManager.disconnect();
-    };
-  }, []);
+      };
+      };
+      return () => {
+          // webSocketManager.disconnect();
+      };
+  }, [userId, initializeNotifications, increment]);
 
   return (
     <div>
@@ -44,7 +57,7 @@ const NavLinks = ({ toggleSidebar }) => {
             <span className='icon'>{icon}</span>
             {text}
             <div className="notification-icon">
-              {id === 5 && notificationCount >= 0 && (
+              {id === 5 && notificationCount > 0 && (
                 <span className='notification-count'>{notificationCount}</span>
               )}
             </div>
