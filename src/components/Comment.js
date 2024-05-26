@@ -20,7 +20,9 @@ const Comment = ({ addComment, comments }) => {
         comId: item.id,
         fullName: item.author.name,
         //userProfile: 'https://www.linkedin.com/in/riya-negi-8879631a9/',
-        text: item.date ? item.date.substring(0, 10) + " : " + item.content : "",
+        date: item.date ? item.date.substring(0, 10) : "",
+        content: item.content,
+        // text: item.date ? item.date.substring(0, 10) + " : " + item.content : "",
         avatarUrl:
           "https://ui-avatars.com/api/name=" +
           item.author.name +  
@@ -35,14 +37,15 @@ const Comment = ({ addComment, comments }) => {
     </div>
   );
 
-  const editComment = async (commentId, updatedText) => {
+  const editComment = async (commentId, newContent) => {
     try {
-      const response = await customFetch.patch(`/comments/${commentId}`, { text: updatedText });
-      const updatedData = data.map(comment =>
-        comment.comId === commentId ? { ...comment, text: response.data.text } : comment
-      );
-      // setData(updatedData);
-    } catch (error) {
+      console.log(newContent);
+      await customFetch.patch(`/comments/${commentId}`, { newContent: newContent });
+      // const newContent = data.map(comment =>
+      //   comment.comId === commentId ? { ...comment, text: response.data.text } : comment
+      // );
+      // setData(newContent);
+    } catch (error) { 
       console.error('Error editing comment:', error);
     }
   };
@@ -69,7 +72,11 @@ const Comment = ({ addComment, comments }) => {
 
           currentUserFullName: getUserFromLocalStorage().name,
         }}
-        commentData={data}
+        // commentData={data}
+        commentData={data.map(comment => ({
+          ...comment,
+          text: `${comment.date} : ${comment.content}`
+        }))}
         customNoComment={() => customNoComment()}
         removeEmoji={true}
         inputStyle={{
@@ -118,9 +125,20 @@ const Comment = ({ addComment, comments }) => {
         ) => {
           addComment(newData);
         }}
-        onEditAction={editComment}
-        onDeleteAction={deleteComment}
-        currentData={(data) => {
+        onEditAction={(comment) =>
+          {
+            // const newContent = comment.text.split(" : ")[1];
+            const newContent = comment.text.split(" : ").slice(1).join(" : ");
+            // console.log(newContent);
+            editComment(comment.comId, comment.text);
+          }
+        }
+        onDeleteAction={(comment) =>
+          {
+            deleteComment(comment.comIdToDelete);
+          }
+        }
+        currentData={(data) => {  
           console.log("curent data", data);
         }}
       />
