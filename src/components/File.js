@@ -29,7 +29,6 @@ const File = ({ addFile, deleteFile, files }) => {
         try {
           const newFile = { file };
           const response = await addFile(newFile);
-  
           // Sau khi thành công, cập nhật danh sách file trong state
           setData((prevData) => [
             ...prevData,

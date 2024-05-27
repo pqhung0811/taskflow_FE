@@ -14,6 +14,7 @@ import {
 } from "./pages/dashboard";
 import webSocketManager from "./components/WebSocketContext";
 import React, { useEffect } from 'react';
+// import CalendarComponent from "./components/CalendarComponent";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
 
           <Route path="project-details" element={<ProjetcDetails />} />
           <Route path="notify" element={<Notification />}/>
+          {/* <Route path="calendar" element={<CalendarComponent />}/> */}
         </Route>
         <Route path="landing" element={<Landing />} />
         <Route path="register" element={<Register />} />

@@ -15,7 +15,8 @@ const links = [
     icon: <FaTasks />,
   },
   { id: 4, text: "profile", path: "profile", icon: <ImProfile /> },
-  { id: 5, text: "Notification", path: "notify", icon: <FaBell />}
+  { id: 5, text: "Notification", path: "notify", icon: <FaBell />},
+  // { id: 6, text: "Calendar", path: "calendar", icon: <FaCalendar />},
   /*{
     id: 5,
     text: 'create project',

@@ -15,6 +15,7 @@ import {
   getProjectTasks,
   setCurrentProject,
 } from "../features/currentProject/currentProjectSlice";
+import { GoogleLogin } from 'react-google-login';
 
 const initialState = {
   name: "",
@@ -57,6 +58,36 @@ function Register() {
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
+
+
+  const onSuccess = async (response) => {
+    const { tokenId } = response;
+
+    // Gửi tokenId đến backend để xác thực
+    const res = await fetch('http://localhost:8080/api/v1/auth/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token: tokenId }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      // Lưu JWT token vào localStorage hoặc xử lý đăng nhập
+      localStorage.setItem('token', data.jwtToken);
+      console.log('Login successful:', data);
+    } else {
+      console.error('Login failed:', data.message);
+    }
+  };
+
+  const onFailure = (response) => {
+    console.log('Login failed:', response);
+  };
+
+  
   useEffect(() => {
     if (user) {
       setTimeout(() => {
@@ -92,20 +123,17 @@ function Register() {
           value={values.password}
           handleChange={handleChange}
         />
-        <button type="submit" className="btn btn-block" disabled={isLoading}>
+        <button type="submit" className="btn btn-block" style={{ marginBottom: '10px' }} disabled={isLoading}>
           {isLoading ? "loading..." : "submit"}
         </button>
-        <button
-          type="button"
-          className="btn btn-block btn-hipster"
-          disabled={isLoading}
-          onClick={() => {
-            dispatch(loginUser({ email: "hung0@gmail.com", password: "1" }));
-            toggleSidebar();
-          }}
-        >
-          {isLoading ? "loading..." : "demo app"}
-        </button>
+        <GoogleLogin
+          clientId="894180138604-40erqj87fcfaq40cbtgd39coi62fb9v5.apps.googleusercontent.com"
+          buttonText="Login with Google"
+          style={{ position: 'absolute', bottom: '50%', left: '50%', transform: 'translate(-50%, 50%)' }}
+          onSuccess={onSuccess}
+          onFailure={onFailure}
+          cookiePolicy={'single_host_origin'}
+        />
         <p>
           {values.isMember ? "Not a member yet?" : "Already a member?"}
           <button type="button" onClick={toggleMember} className="member-btn">

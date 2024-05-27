@@ -95,10 +95,9 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
     formData.append('id', task.id);
 
     const info = formData;
-    const response = await dispatch(addFileAttachment(info))
-    dispatch(getCurrentTask(taskId));
-    dispatch(getAllTasks());
+    const response = await dispatch(addFileAttachment(info));
 
+    dispatch(getCurrentTask(taskId));
     return response;
   };
 
@@ -106,8 +105,6 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
     const info = data;
     const response = await dispatch(deleteFileAttachment(info));
     dispatch(getCurrentTask(taskId));
-    dispatch(getAllTasks());
-
     return response;
   };
 
