@@ -444,7 +444,7 @@ const currentProjectSlice = createSlice({
 
         state.tasks = state.tasks.map((task) => {
           if (task.id === editedTask.id) {
-            task = editedTask;
+            // task = editedTask;
             return editedTask;
           }
           return task;
