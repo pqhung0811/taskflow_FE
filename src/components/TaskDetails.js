@@ -12,7 +12,7 @@ import { AiOutlineSave } from "react-icons/ai";
 import ProjectInfo from "./ProjectInfo";
 import { BiTask } from "react-icons/bi";
 import { Calendar, CheckSquare, List, Tag, Trash, Type } from "react-feather";
-import { FaPaperclip } from 'react-icons/fa'
+import { FaPaperclip, FaStar, FaThumbtack } from 'react-icons/fa'
 import CustomInput from "./CustomInput";
 import {
   updateTaskDeadLine,
@@ -23,6 +23,7 @@ import {
   updateTaskProgress,
   addFileAttachment,
   deleteFileAttachment,
+  updatePriority,
 } from "../features/currentProject/currentProjectSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Comment from "./Comment";
@@ -108,6 +109,18 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
     return response;
   };
 
+  const handlePriorityChange = (newPriority) => {
+    console.log(task.priority);
+    const priorityId = parseInt(newPriority, 10); 
+    const confirmChange = window.confirm('Are you sure you want to change priority?');
+    if (confirmChange) {
+      if (chef) {
+        const info = { taskId: task.id, newPriority: priorityId };
+        dispatch(updatePriority(info)).then(dispatch(getCurrentTask(taskId)));
+      } else toast.error("only the project manager can modify the priority"); 
+    }
+  };
+
   function toggleEditProgressForm() {
     setEditProgressFormIsOpen(!editProgressFormIsOpen);
   }
@@ -119,6 +132,21 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
 
   const deadlineDate = new Date(task.deadline);
   const formattedDeadline = deadlineDate instanceof Date && !isNaN(deadlineDate) ? deadlineDate.toISOString().split('T')[0] : '';
+
+  let priorityValue;
+  switch (task.priority) {
+    case 'LOW':
+      priorityValue = 0;
+      break;
+    case 'MEDIUM':
+      priorityValue = 1;
+      break;
+    case 'HIGH':
+      priorityValue = 2;
+      break;
+    default:
+      priorityValue = ''; // Hoặc giá trị mặc định nếu task.priority không khớp
+  }
 
   return (
     <Wrapper>
@@ -149,6 +177,32 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
             onSubmit={updateDesc}
             chef={chef}
           />
+        </div>
+
+        <div className="cardinfo-box">
+          <div className="cardinfo-box-title">
+            <FaStar />
+            <p>Priority</p>
+          </div>
+          <div className="cardinfo-box-content">
+            <select value={priorityValue} 
+                    onChange={(event) => handlePriorityChange(event.target.value)}>
+              <option></option>
+              <option value="0">Low</option>
+              <option value="1">Medium</option>
+              <option value="2">High</option>
+            </select>
+          </div >
+        </div>
+
+        <div className="cardinfo-box">
+          <div className="cardinfo-box-title">
+            <FaThumbtack />
+            <p>Category</p>
+          </div>
+          <div className="cardinfo-box-category">
+            {task.category}
+          </div >
         </div>
 
         <div className="cardinfo-box">

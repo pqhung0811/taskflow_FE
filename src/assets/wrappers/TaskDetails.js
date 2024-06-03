@@ -165,6 +165,21 @@ const Wrapper = styled.section`
     width: 18px;
   }
 
+  .cardinfo-box-category {
+    border: 1px solid #ccc; 
+    border-radius: 5px;
+    padding: 10px; 
+  }
+
+  .cardinfo-box-content select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
   .cardinfo-box-labels {
     display: flex;
     gap: 5px;

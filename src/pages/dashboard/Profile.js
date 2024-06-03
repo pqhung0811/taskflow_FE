@@ -153,6 +153,7 @@ const Profile = () => {
                   className="form-control form-control-sm"
                   id="formFileSm"
                   type="file"
+                  accept=".jpg, .jpeg, .png"
                   //value={imageUrl}
                   style={{ width: "160%", height: "75%" }}
                   onChange={onImageChange}

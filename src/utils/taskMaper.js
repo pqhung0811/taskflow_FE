@@ -11,6 +11,8 @@ export const mapData = (tasks, chef) => {
       advance,
       comments,
       files,
+      priority,
+      category,
     }) => {
       return {
         id: `${id}`,
@@ -18,7 +20,7 @@ export const mapData = (tasks, chef) => {
         description: chef
           ? `assigned to : ${responsible.name.toUpperCase()}`
           : `project : ${project.name}`,
-        label: `${deadline.substring(0, 10)}`,
+        label: deadline ? `${deadline.substring(0, 10)}` : '',
         draggable: true,
         startTime,
         project,
@@ -26,6 +28,8 @@ export const mapData = (tasks, chef) => {
         comments,
         state,
         files,
+        priority,
+        category,
       };
     }
   );

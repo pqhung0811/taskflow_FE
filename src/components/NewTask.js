@@ -20,17 +20,46 @@ const NewTask = ({
   setAssignee,
   deadline,
   setDeadline,
+  priority,
+  setPriority,
+  description,
+  setDescription,
+  category,
+  setCategory,
   addNewTask,
 }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!title || !assignee) {
+    if (!title || !assignee || !priority || !category) {
       toast.error("Please complete all fields");
       return;
     }
     addNewTask();
     handleCloseModal();
   };
+
+  let priorityList = [
+    { name: "Low", id: 0 },
+    { name: "Medium", id: 1 },
+    { name: "High", id: 2}
+  ];
+
+  let categoryList = [
+    { name: "Feature", id: 0 },
+    { name: "Bug", id: 1 },
+    { name: "Improvement", id: 2},
+    { name: "Technical debt", id: 3},
+    { name: "Testing", id: 4},
+    { name: "Documentation", id: 5},
+    { name: "Refactor", id: 6},
+    { name: "Maintenance", id: 7},
+    { name: "Research", id: 8},
+    { name: "Support", id: 9},
+    { name: "Design", id: 10},
+    { name: "Meeting", id: 11},
+    { name: "Training", id: 12},
+    { name: "Deployment", id: 13}
+  ];
 
   return (
     <Wrapper>
@@ -47,7 +76,7 @@ const NewTask = ({
                   marginBottom: "5px",
                   float: "right",
                   position: "absolute",
-                  top: "10px",
+                  top: "40px",
                   right: "20px",
                 }}
                 onClick={() => handleCloseModal()}
@@ -99,7 +128,84 @@ const NewTask = ({
                 </select>
                 <FaCaretDown className="form__select-icon" />
               </div>
-              <br />
+              <label htmlFor="description" className="form__label">
+                Description:
+              </label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                className="form__input"
+                style={{
+                  width: '100%',
+                  height: '100px', 
+                  padding: '10px',
+                  fontSize: '16px', 
+                  border: '1px solid #ccc', 
+                  borderRadius: '4px', 
+                  boxSizing: 'border-box', 
+                  resize: 'vertical', 
+                }}
+                rows="5" 
+              />
+              <label htmlFor="priority" className="form__label">
+                Priority:
+              </label>
+              <div className="form__select-container">
+                <select
+                  id="priority"
+                  value={priority}
+                  onChange={(event) => setPriority(event.target.value)}
+                  className="form__select"
+                  placeholder="choose a priority"
+                >
+                  <option value="" key={-1} style={{ color: "gray" }}>
+                    choose a priority
+                  </option>
+                  {priorityList.map((priority) => {
+                    //console.log(member.name);
+                    return (
+                      <option
+                        value={priority.name}
+                        key={priority.id}
+                        style={{ color: "black" }}
+                      >
+                        {priority.name}
+                      </option>
+                    );
+                  })}
+                </select>
+                <FaCaretDown className="form__select-icon" />
+              </div>
+              <label htmlFor="category" className="form__label">
+                Category:
+              </label>
+              <div className="form__select-container">
+                <select
+                  id="category"
+                  value={category}
+                  onChange={(event) => setCategory(event.target.value)}
+                  className="form__select"
+                  placeholder="choose a category"
+                >
+                  <option value="" key={-1} style={{ color: "gray" }}>
+                    choose a category
+                  </option>
+                  {categoryList.map((category) => {
+                    //console.log(member.name);
+                    return (
+                      <option
+                        value={category.name}
+                        key={category.id}
+                        style={{ color: "black" }}
+                      >
+                        {category.name}
+                      </option>
+                    );
+                  })}
+                </select>
+                <FaCaretDown className="form__select-icon" />
+              </div>
               <label htmlFor="deadline" className="form__label">
                 Deadline:
               </label>

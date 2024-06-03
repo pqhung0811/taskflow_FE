@@ -119,22 +119,55 @@ export const ProjetcDetails = () => {
     setTitle("");
     setAssignee("");
     setDeadline(null);
+    setDescription("");
+    setPriority(null);
+    setCategory(null);
   };
   const addNewTask = () => {
+    console.log(category);
+    console.log(categoryList.find(item => item.name === category).id);
     const newTask = {
       title,
       // reponsible: members.find((m) => m.name == assignee).id,
       email: members.find((m) => m.name == assignee).email,
       deadline,
       projectId: project.payload.id,
+      description,
+      priority: priorityList.find(item => item.name === priority).id,
+      category: categoryList.find(item => item.name === category).id,
     };
     dispatch(createTask(newTask));
   };
   const [title, setTitle] = useState("");
   const [assignee, setAssignee] = useState("");
   const [deadline, setDeadline] = useState(null);
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState(null);
+  const [category, setCategory] = useState(null);
   const [addMemberFormIsOpen, setAddMemberFormIsOpen] = useState(false);
   const [emailToAdd, setEmailToAdd] = useState("");
+  let priorityList = [
+    { name: "Low", id: 0 },
+    { name: "Medium", id: 1 },
+    { name: "High", id: 2}
+  ];
+
+  let categoryList = [
+    { name: "Feature", id: 0 },
+    { name: "Bug", id: 1 },
+    { name: "Improvement", id: 2},
+    { name: "Technical debt", id: 3},
+    { name: "Testing", id: 4},
+    { name: "Documentation", id: 5},
+    { name: "Refactor", id: 6},
+    { name: "Maintenance", id: 7},
+    { name: "Research", id: 8},
+    { name: "Support", id: 9},
+    { name: "Design", id: 10},
+    { name: "Meeting", id: 11},
+    { name: "Training", id: 12},
+    { name: "Deployment", id: 13}
+  ];
   function toggleAddMemberForm() {
     setAddMemberFormIsOpen(!addMemberFormIsOpen);
   }
@@ -167,6 +200,7 @@ export const ProjetcDetails = () => {
 
           <div className="info">
             <h5>{project.payload.name}</h5>
+            <button> Statistics </button>
           </div>
         </header>
 
@@ -345,6 +379,12 @@ export const ProjetcDetails = () => {
             setAssignee={setAssignee}
             deadline={deadline}
             setDeadline={setDeadline}
+            description={description}
+            setDescription={setDescription}
+            priority={priority}
+            setPriority={setPriority}
+            category={category}
+            setCategory={setCategory}
             addNewTask={addNewTask}
           />
         )}

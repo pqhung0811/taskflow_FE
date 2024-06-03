@@ -144,7 +144,10 @@ export const createTask = createAsyncThunk(
       title: task.title,
       deadline: task.deadline.toISOString(),
       email: task.email,
+      priority: task.priority,
       projectId: task.projectId,
+      description: task.description,
+      category: task.category,
     };
     //console.log('tacheEnv');
     //console.log(tache.titre);
@@ -186,6 +189,21 @@ export const deleteFileAttachment = createAsyncThunk(
 
     try {
       const resp = await customFetch.delete(url, fileId);
+
+      return resp.data;
+    } catch (error) {
+      return checkForUnauthorizedResponse(error, thunkAPI);
+    }
+  }
+);
+
+export const updatePriority = createAsyncThunk(
+  "tasks/modifyPriority",
+  async (info, thunkAPI) => {
+    let url = `/tasks/modifyPriority`;
+
+    try {
+      const resp = await customFetch.patch(url, info);
 
       return resp.data;
     } catch (error) {
@@ -320,13 +338,14 @@ const currentProjectSlice = createSlice({
       .addCase(updateTaskTitle.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         const editedTask = payload.task;
-
-        state.tasks = state.tasks.map((task) => {
-          if (task.id === editedTask.id) {
-            return editedTask;
-          }
-          return task;
-        });
+        state.currentTask = editedTask;
+        // state.tasks = state.tasks.map((task) => {
+        //   if (task.id === editedTask.id) {
+        //     state.currentTask = editedTask;
+        //     return editedTask;
+        //   }
+        //   return task;
+        // });
 
         toast.success("title has been successfully changed");
       })
@@ -340,14 +359,7 @@ const currentProjectSlice = createSlice({
       .addCase(updateTaskDesc.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         const editedTask = payload.task;
-
-        state.tasks = state.tasks.map((task) => {
-          if (task.id === editedTask.id) {
-            return editedTask;
-          }
-          return task;
-        });
-
+        state.currentTask = editedTask;
         toast.success("description of the task modified successfully");
       })
       .addCase(updateTaskDesc.rejected, (state, { payload }) => {
@@ -362,14 +374,7 @@ const currentProjectSlice = createSlice({
       .addCase(updateTaskDeadLine.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         const editedTask = payload.task;
-
-        state.tasks = state.tasks.map((task) => {
-          if (task.id === editedTask.id) {
-            return editedTask;
-          }
-          return task;
-        });
-
+        state.currentTask = editedTask;
         toast.success("deadLine of task modified successfully");
       })
       .addCase(updateTaskDeadLine.rejected, (state, { payload }) => {
@@ -382,15 +387,7 @@ const currentProjectSlice = createSlice({
       .addCase(addCommentToTask.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         const editedTask = payload.task;
-
-        state.tasks = state.tasks.map((task) => {
-          if (task.id === editedTask.id) {
-            task = editedTask;
-            return editedTask;
-          }
-          return task;
-        });
-
+        state.currentTask = editedTask;
         toast.success("Comment recorded!");
       })
       .addCase(addCommentToTask.rejected, (state, { payload }) => {
@@ -440,16 +437,6 @@ const currentProjectSlice = createSlice({
       })
       .addCase(addFileAttachment.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        const editedTask = payload.task;
-
-        state.tasks = state.tasks.map((task) => {
-          if (task.id === editedTask.id) {
-            // task = editedTask;
-            return editedTask;
-          }
-          return task;
-        });
-
         toast.success("File recorded!");
       })
       .addCase(deleteFileAttachment.pending, (state) => {
@@ -463,15 +450,6 @@ const currentProjectSlice = createSlice({
       })
       .addCase(deleteFileAttachment.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        const editedTask = payload.task;
-
-        state.tasks = state.tasks.map((task) => {
-          if (task.id === editedTask.id) {
-            return editedTask;
-          }
-          return task;
-        });
-
         toast.success("File was deleted!");
       })
       .addCase(deleteTask.pending, (state) => {
@@ -484,6 +462,21 @@ const currentProjectSlice = createSlice({
       .addCase(deleteTask.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error("there was an error connecting to the server");
+      })
+      .addCase(updatePriority.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updatePriority.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        const editedTask = payload.task;
+        state.currentTask = editedTask;
+        toast.success("priority of the task modified successfully");
+      })
+      .addCase(updatePriority.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(
+          "there was an error, the priority has not been updated"
+        );
       });
     /* .addCase(getCurrentProject, (state, payload) => {
         state.isLoading = false;

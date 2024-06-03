@@ -127,7 +127,7 @@ const allProjectsSlice = createSlice({
       .addCase(createProject.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.projects = [...state.projects, payload.project];
-        console.log("project created");
+        console.log(JSON.stringify(state.projects));
         toast.success("project created successfully!");
       })
       .addCase(createProject.rejected, (state, { payload }) => {
