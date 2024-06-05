@@ -16,6 +16,7 @@ const links = [
   },
   { id: 4, text: "profile", path: "profile", icon: <ImProfile /> },
   { id: 5, text: "Notification", path: "notify", icon: <FaBell />},
+  { id: 6, text: "Personal statistics", path: "statistics", icon: <IoBarChartSharp/> },
   // { id: 6, text: "Calendar", path: "calendar", icon: <FaCalendar />},
   /*{
     id: 5,
