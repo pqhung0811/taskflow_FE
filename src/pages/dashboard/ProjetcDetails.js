@@ -38,6 +38,7 @@ import { getAllTasks } from "../../features/tasks/allTasksSlice";
 import { setDashboardText } from "../../features/user/userSlice";
 import { MDBCol, MDBRow } from "mdb-react-ui-kit";
 import { MDBCard, MDBCardHeader, MDBCardText } from "mdbreact";
+import customFetch from "../../utils/axios";
 
 export const ProjetcDetails = () => {
   const dispatch = useDispatch();
@@ -184,6 +185,16 @@ export const ProjetcDetails = () => {
     //console.log('add member with email '+ emailToAdd);
   }
 
+  const hanldleClickStatistics = async () => {
+    try {
+      const projectId = project.payload.id;
+      const response = await customFetch.get(`/statistics/${projectId}`);
+      navigate('/statistics-project', { state: { statistics: response.data } });
+    } catch (error) { 
+      console.error('Error: ', error);
+    }
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -200,7 +211,7 @@ export const ProjetcDetails = () => {
 
           <div className="info">
             <h5>{project.payload.name}</h5>
-            <button> Statistics </button>
+            <button onClick={hanldleClickStatistics}> Statistics </button>
           </div>
         </header>
 

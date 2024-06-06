@@ -57,14 +57,10 @@ const Project = ({
   }
   const [tasks, setTasks] = useState([]);
   const getTasksByProject = async (projectId) =>
-    // await fetch(`${urlBase}/projects/${projectId}/tasks`).then(
     await customFetch.get(`/projects/${projectId}/tasks`).then(
     async (response) => {
-        if (response.ok) {
-          const data = await response.json();
-          setTasks(data.tasks);
-        } else console.log(response);
-        return;
+      const data = response.data;
+      setTasks(data.tasks);
       }
     );
 

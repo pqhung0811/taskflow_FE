@@ -10,7 +10,7 @@ const Statistics = () => {
 
     useEffect(() => {
       const fetchData = async () => {
-        const response = await customFetch('/statistics');
+        const response = await customFetch.get('/statistics');
         // const data = await response.json();
         setStatistics(response.data.statistics);
       };
