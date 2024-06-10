@@ -14,6 +14,7 @@ const Wrapper = styled.section`
 
     padding: 2%;
     background-color: #fff;
+    position: relative; 
     @media (min-width: 576px) {
       grid-template-columns: 1fr 1fr;
     }
@@ -57,6 +58,26 @@ const Wrapper = styled.section`
     margin: 2px 0 0 0;
     font-size: 14px;
     color: #666;
+  }
+
+  .close-button {
+    position: absolute;
+    top: -2px;
+    right: 2px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ff0000;
+        transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+
+    &:active {
+      background-color: rgba(255, 0, 0, 0.2);
+    }
   }
 `;
 export default Wrapper;

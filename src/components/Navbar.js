@@ -19,6 +19,10 @@ const Navbar = () => {
   const { dashBoardText } = useSelector((store) => store.user);
   console.log("this is dash text" + dashBoardText);
 
+  const changePassword = async () => {
+    navigate('/changepass');
+  }
+
   return (
     <Wrapper>
       <div className="nav-center">
@@ -59,6 +63,15 @@ const Navbar = () => {
               }}
             >
               logout
+            </button>
+            <button
+              type="button"
+              className="dropdown-btn"
+              onClick={() => {
+                changePassword();
+              }}
+            >
+              Change Password
             </button>
           </div>
         </div>

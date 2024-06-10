@@ -7,6 +7,7 @@ const Wrapper = styled.section`
     background-color: #f9f6ff;
     padding: 1%;
     border-radius: 1%;
+    width: 105%;
   }
   .empty {
     height: 5%;
@@ -66,6 +67,10 @@ const Wrapper = styled.section`
     }
     button:hover {
       background-color: #0056b3;
+    }
+    .spaced-button {
+      margin-left: 10px; /* Adjust the value to set the desired spacing */
+      background-color: brown;
     }
   }
   .project-name {

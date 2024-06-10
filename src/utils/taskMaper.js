@@ -18,7 +18,7 @@ export const mapData = (tasks, chef) => {
         id: `${id}`,
         title: title,
         description: chef
-          ? `assigned to : ${responsible.name.toUpperCase()}`
+          ? `assigned to : ${responsible ? responsible.name.toUpperCase() : 'Unassigned'}`
           : `project : ${project.name}`,
         label: deadline ? `${deadline.substring(0, 10)}` : '',
         draggable: true,

@@ -24,7 +24,8 @@ import {
   getCurrentProject,
   getCurrentTask,
   updateTaskState,
-  deleteTask
+  deleteTask,
+  removeMember
 } from "../../features/currentProject/currentProjectSlice";
 import { TaskModal } from "../../components/TaskModal";
 import { IoMdAdd } from "react-icons/io";
@@ -195,6 +196,33 @@ export const ProjetcDetails = () => {
     }
   };
 
+  const hanldleClickFileShare = async () => {
+    try {
+      const projectId = project.payload.id;
+      const response = await customFetch.get(`/project/file/${projectId}`);
+      navigate('/fileshare', { 
+        state: { 
+          projectId: projectId,
+          folders: response.data.folder,
+          files: response.data.fileShare,
+        } });
+    } catch (error) { 
+      console.error('Error: ', error);
+    }
+  };
+
+  const handleRemoveMember = async (memberId, projectId) => {
+    try {
+      const confirmChange = window.confirm('Are you sure you want to delete this member?');
+      if (confirmChange) {
+        const info = {projectId: projectId, userId: memberId};
+        dispatch(removeMember(info));
+      }
+    } catch (error) { 
+      console.error('Error editing comment:', error);
+    }
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -212,6 +240,7 @@ export const ProjetcDetails = () => {
           <div className="info">
             <h5>{project.payload.name}</h5>
             <button onClick={hanldleClickStatistics}> Statistics </button>
+            <button onClick={hanldleClickFileShare} className="spaced-button"> File Sharing </button>
           </div>
         </header>
 
@@ -306,7 +335,8 @@ export const ProjetcDetails = () => {
               </MDBCardHeader>
 
               {members.map((member) => {
-                return <TeamMember key={member.id} member={member} />;
+                return <TeamMember key={member.id} member={member} 
+                                    onRemove={() => handleRemoveMember(member.id, project.payload.id)}/>;
               })}
 
               <button

@@ -146,6 +146,7 @@ const Wrapper = styled.section`
     display: flex;
     flex-direction: column;
     gap: 2px;
+    margin-bottom: 10px;
   }
 
   .cardinfo-box-title {
@@ -153,6 +154,7 @@ const Wrapper = styled.section`
     gap: 10px;
     align-items: center;
     color: #30336b;
+    margin-bottom: 4px;
   }
 
   .cardinfo-box-title p {
@@ -277,6 +279,10 @@ const Wrapper = styled.section`
   .cardinfo-box-progress-bar progress,
   .cardinfo-box-progress-bar p {
     display: inline-block;
+  }
+  .cardinfo-box-title p {
+    margin: 0;
+    padding-left: 0px; /* Khoảng cách giữa biểu tượng và chữ, có thể điều chỉnh */
   }
 `;
 export default Wrapper;

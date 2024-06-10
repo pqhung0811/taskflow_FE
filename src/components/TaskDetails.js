@@ -12,7 +12,8 @@ import { AiOutlineSave } from "react-icons/ai";
 import ProjectInfo from "./ProjectInfo";
 import { BiTask } from "react-icons/bi";
 import { Calendar, CheckSquare, List, Tag, Trash, Type } from "react-feather";
-import { FaPaperclip, FaStar, FaThumbtack } from 'react-icons/fa'
+import { FaPaperclip, FaStar, FaThumbtack } from 'react-icons/fa';
+import { BsBriefcaseFill } from 'react-icons/bs';
 import CustomInput from "./CustomInput";
 import {
   updateTaskDeadLine,
@@ -24,6 +25,7 @@ import {
   addFileAttachment,
   deleteFileAttachment,
   updatePriority,
+  reAssignTask,
 } from "../features/currentProject/currentProjectSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Comment from "./Comment";
@@ -44,10 +46,11 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
     toast.info("getcurrentTask called");
   }, []);*/
 
-  const { currentTask } = useSelector((store) => store.currentProject);
+  const { currentTask, members } = useSelector((store) => store.currentProject);
   const task = currentTask;
   const comments = task.comments;
   const files = task.files;
+  const assignedId = task.responsible ? task.responsible.id : 0;
 
   const updateTitle = async (newTitle) => {
     const info = { taskId: task.id, newTitle: newTitle };
@@ -121,6 +124,14 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
     }
   };
 
+  const handleMemberChange = async (value) => {
+    const confirmChange = window.confirm('Are you sure you want to change the person assigned the task?');
+    if (confirmChange) {
+      const info = {taskId: task.id, userId: value};
+      dispatch(reAssignTask(info));
+    }
+  }
+
   function toggleEditProgressForm() {
     setEditProgressFormIsOpen(!editProgressFormIsOpen);
   }
@@ -163,6 +174,23 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
             onSubmit={updateTitle}
             chef={chef}
           />
+        </div>
+
+        <div className="cardinfo-box">
+          <div className="cardinfo-box-title">
+            <BsBriefcaseFill />
+            <p>Re-assign</p>
+          </div>
+          <div className="cardinfo-box-content">
+            <select value={assignedId} onChange={(event) => handleMemberChange(event.target.value)}>
+              <option value={0}>Not Assigned</option>
+              {members.map(member => (
+                <option key={member.id} value={member.id}>
+                  {member.name}
+                </option>
+                ))}
+            </select>
+          </div >
         </div>
 
         <div className="cardinfo-box">

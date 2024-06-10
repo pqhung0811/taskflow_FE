@@ -227,6 +227,34 @@ export const deleteTask = createAsyncThunk(
   }
 );
 
+export const removeMember = createAsyncThunk(
+  "project/removemember",
+  async (info, thunkAPI) => {
+    let url = `/projects/deleteMember`;
+
+    try {
+      const resp = await customFetch.patch(url, info);
+      return resp.data;
+    } catch (error) {
+      return checkForUnauthorizedResponse(error, thunkAPI);
+    }
+  }
+);
+
+export const reAssignTask = createAsyncThunk(
+  "project/reAssignTask",
+  async (info, thunkAPI) => {
+    let url = `/tasks/modifyResponsible`;
+
+    try {
+      const resp = await customFetch.patch(url, info);
+      return resp.data;
+    } catch (error) {
+      return checkForUnauthorizedResponse(error, thunkAPI);
+    }
+  }
+);
+
 const currentProjectSlice = createSlice({
   name: "currentProject",
   initialState,
@@ -477,7 +505,37 @@ const currentProjectSlice = createSlice({
         toast.error(
           "there was an error, the priority has not been updated"
         );
+      })
+      .addCase(removeMember.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(removeMember.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.members = payload.members;
+        toast.success("member is removed successfully");
+      })
+      .addCase(removeMember.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(
+          "there was an error, the removing has not been updated"
+        );
+      })
+      .addCase(reAssignTask.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(reAssignTask.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        const editedTask = payload.task;
+        state.currentTask = editedTask;
+        toast.success("Success");
+      })
+      .addCase(reAssignTask.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(
+          "there was an error"
+        );
       });
+
     /* .addCase(getCurrentProject, (state, payload) => {
         state.isLoading = false;
         state.project = payload;

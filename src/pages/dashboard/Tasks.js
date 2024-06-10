@@ -99,5 +99,6 @@ const Wrapper = styled.main`
 
     border-radius: 1%;
     padding: 1%;
+    width: 105%;
   }
 `;
