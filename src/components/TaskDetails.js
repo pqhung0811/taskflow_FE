@@ -12,7 +12,7 @@ import { AiOutlineSave } from "react-icons/ai";
 import ProjectInfo from "./ProjectInfo";
 import { BiTask } from "react-icons/bi";
 import { Calendar, CheckSquare, List, Tag, Trash, Type } from "react-feather";
-import { FaPaperclip, FaStar, FaThumbtack } from 'react-icons/fa';
+import { FaPaperclip, FaStar, FaThumbtack, FaClock } from 'react-icons/fa';
 import { BsBriefcaseFill } from 'react-icons/bs';
 import CustomInput from "./CustomInput";
 import {
@@ -26,6 +26,7 @@ import {
   deleteFileAttachment,
   updatePriority,
   reAssignTask,
+  updateEstimateTime,
 } from "../features/currentProject/currentProjectSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Comment from "./Comment";
@@ -91,6 +92,13 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
     return await dispatch(updateTaskProgress(info)).then(
       dispatch(getCurrentTask(taskId))
     );
+  };
+
+  const updateEstimateTimeTask = async (newEstimateTime) => {
+    const info = { taskId: task.id, estimateTime: newEstimateTime };
+    //setTaskValues({...taskValues, title:newTitle});
+
+    dispatch(updateEstimateTime(info)).then(dispatch(getCurrentTask(taskId)));
   };
 
   const addFile = async (data) => {
@@ -257,6 +265,20 @@ function TaskDetails({ taskId, chef, toggleModal, handleCardClick }) {
         </div>
 
         <header />
+
+        <div className="cardinfo-box">
+          <div className="cardinfo-box-title">
+            <FaClock />
+            <p>Estimated completion time (hour)</p>
+          </div>
+          <CustomInput
+            defaultValue={task.estimateTime}
+            text={task.estimateTime}
+            placeholder="Enter Estimate Time"
+            onSubmit={updateEstimateTimeTask}
+            chef={true}
+          />
+        </div>
 
         <div className="cardinfo-box">
           <div className="cardinfo-box-title">

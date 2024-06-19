@@ -255,6 +255,21 @@ export const reAssignTask = createAsyncThunk(
   }
 );
 
+export const updateEstimateTime = createAsyncThunk(
+  "tasks/modifyEstimateTime",
+  async (info, thunkAPI) => {
+    let url = `/tasks/modifyEstimateTime`;
+
+    try {
+      const resp = await customFetch.patch(url, info);
+
+      return resp.data;
+    } catch (error) {
+      return checkForUnauthorizedResponse(error, thunkAPI);
+    }
+  }
+);
+
 const currentProjectSlice = createSlice({
   name: "currentProject",
   initialState,
@@ -533,6 +548,21 @@ const currentProjectSlice = createSlice({
         state.isLoading = false;
         toast.error(
           "there was an error"
+        );
+      })
+      .addCase(updateEstimateTime.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateEstimateTime.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        const editedTask = payload.task;
+        state.currentTask = editedTask;
+        toast.success("Estimate time of the task modified successfully");
+      })
+      .addCase(updateEstimateTime.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(
+          "there was an error, the estimate time has not been updated"
         );
       });
 

@@ -13,6 +13,7 @@ export const mapData = (tasks, chef) => {
       files,
       priority,
       category,
+      estimateTime,
     }) => {
       return {
         id: `${id}`,
@@ -30,6 +31,7 @@ export const mapData = (tasks, chef) => {
         files,
         priority,
         category,
+        estimateTime,
       };
     }
   );
