@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const SearchBar = ({ setSearchTerm }) => {
   const handleChange = (event) => {
@@ -8,6 +8,7 @@ const SearchBar = ({ setSearchTerm }) => {
   return (
     <div className="search-bar">
       <input
+        class="form-control"
         type="text"
         placeholder="Search..."
         onChange={handleChange}

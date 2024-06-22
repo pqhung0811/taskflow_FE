@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar, clearStore } from "../features/user/userSlice";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 const Navbar = () => {
   const [showLogout, setShowLogout] = useState(false);
@@ -20,8 +23,8 @@ const Navbar = () => {
   console.log("this is dash text" + dashBoardText);
 
   const changePassword = async () => {
-    navigate('/changepass');
-  }
+    navigate("/changepass");
+  };
 
   return (
     <Wrapper>
@@ -44,17 +47,15 @@ const Navbar = () => {
           <h3 className="logo-text">{dashBoardText}</h3>
         </div>
 
-        <div className="btn-container">
-          <button
-            type="button"
-            className="btn"
-            onClick={() => setShowLogout(!showLogout)}
-          >
-            <FaUserCircle />
-            {user?.name}
-            <FaCaretDown />
-          </button>
-          <div className={showLogout ? "dropdown show-dropdown" : "dropdown"}>
+        <DropdownButton
+          title={
+            <span className="d-inline-flex align-items-center">
+              <FaUserCircle />
+              {user?.name}
+            </span>
+          }
+        >
+          <Dropdown.Item>
             <button
               type="button"
               className="dropdown-btn"
@@ -64,6 +65,8 @@ const Navbar = () => {
             >
               logout
             </button>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <button
               type="button"
               className="dropdown-btn"
@@ -73,8 +76,8 @@ const Navbar = () => {
             >
               Change Password
             </button>
-          </div>
-        </div>
+          </Dropdown.Item>
+        </DropdownButton>
       </div>
     </Wrapper>
   );

@@ -1,0 +1,51 @@
+export default function FileIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+      <path
+        d="M50,61H22a6,6,0,0,1-6-6V22l9-11H50a6,6,0,0,1,6,6V55A6,6,0,0,1,50,61Z"
+        fill="#7e95c4"
+      ></path>
+      <path
+        d="M25,20.556A1.444,1.444,0,0,1,23.556,22H16l9-11h0Z"
+        fill="#b7ccea"
+      ></path>
+      <rect
+        x="27"
+        y="31"
+        width="18"
+        height="2"
+        rx="1"
+        ry="1"
+        fill="#fff"
+      ></rect>
+      <rect
+        x="27"
+        y="35"
+        width="18"
+        height="2"
+        rx="1"
+        ry="1"
+        fill="#fff"
+      ></rect>
+      <rect
+        x="27"
+        y="39"
+        width="18"
+        height="2"
+        rx="1"
+        ry="1"
+        fill="#fff"
+      ></rect>
+      <rect
+        x="27"
+        y="43"
+        width="14"
+        height="2"
+        rx="1"
+        ry="1"
+        fill="#fff"
+      ></rect>
+      <rect x="27" y="47" width="8" height="2" rx="1" ry="1" fill="#fff"></rect>
+    </svg>
+  );
+}

@@ -1,0 +1,52 @@
+export default function DocxIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+      <g>
+        <path
+          d="M50,61H22a6,6,0,0,1-6-6V22l9-11H50a6,6,0,0,1,6,6V55A6,6,0,0,1,50,61Z"
+          fill="#599def"
+        ></path>
+        <path
+          d="M25,20.556A1.444,1.444,0,0,1,23.556,22H16l9-11h0Z"
+          fill="#c2e1ff"
+        ></path>
+        <rect
+          x="27"
+          y="31"
+          width="18"
+          height="2"
+          rx="1"
+          ry="1"
+          fill="#fff"
+        ></rect>
+        <rect
+          x="27"
+          y="36"
+          width="18"
+          height="2"
+          rx="1"
+          ry="1"
+          fill="#fff"
+        ></rect>
+        <rect
+          x="27"
+          y="41"
+          width="18"
+          height="2"
+          rx="1"
+          ry="1"
+          fill="#fff"
+        ></rect>
+        <rect
+          x="27"
+          y="46"
+          width="12"
+          height="2"
+          rx="1"
+          ry="1"
+          fill="#fff"
+        ></rect>
+      </g>
+    </svg>
+  );
+}

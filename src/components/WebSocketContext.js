@@ -50,7 +50,7 @@ class WebSocketManager {
     }
 }
 
-const url = 'http://localhost:8080/ws';
+const url = `${process.env.REACT_APP_API_URL}/ws`;
 const webSocketManager = new WebSocketManager(url);
 
 export default webSocketManager;

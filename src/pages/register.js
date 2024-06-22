@@ -15,14 +15,17 @@ import {
   getProjectTasks,
   setCurrentProject,
 } from "../features/currentProject/currentProjectSlice";
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin } from "react-google-login";
+import ExcelIcon from "../assets/icons/excel-icon";
+import FolderCard from "../components/FolderCard";
+import FileCard from "../components/FileCard";
 
 const initialState = {
   name: "",
   email: "",
   password: "",
   id: 0,
-  isMember: true
+  isMember: true,
 };
 
 function Register() {
@@ -41,13 +44,13 @@ function Register() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    const { name, email, password, isMember, id} = values;
+    const { name, email, password, isMember, id } = values;
     if (!email || !password || (!isMember && !name)) {
       toast.error("Please complete all fields!");
       return;
     }
     if (isMember) {
-      dispatch(loginUser({ email: email, password: password, id: id}));
+      dispatch(loginUser({ email: email, password: password, id: id }));
       dispatch(toggleSidebar());
 
       return;
@@ -59,35 +62,37 @@ function Register() {
     setValues({ ...values, isMember: !values.isMember });
   };
 
-
   const onSuccess = async (response) => {
     const { tokenId } = response;
 
     // Gửi tokenId đến backend để xác thực
-    const res = await fetch('http://localhost:8080/api/v1/auth/google', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ token: tokenId }),
-    });
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/v1/auth/google`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+        body: JSON.stringify({ token: tokenId }),
+      }
+    );
 
     const data = await res.json();
 
     if (data.success) {
       // Lưu JWT token vào localStorage hoặc xử lý đăng nhập
-      localStorage.setItem('token', data.jwtToken);
-      console.log('Login successful:', data);
+      localStorage.setItem("token", data.jwtToken);
+      console.log("Login successful:", data);
     } else {
-      console.error('Login failed:', data.message);
+      console.error("Login failed:", data.message);
     }
   };
 
   const onFailure = (response) => {
-    console.log('Login failed:', response);
+    console.log("Login failed:", response);
   };
 
-  
   useEffect(() => {
     if (user) {
       setTimeout(() => {
@@ -123,16 +128,21 @@ function Register() {
           value={values.password}
           handleChange={handleChange}
         />
-        <button type="submit" className="btn btn-block" style={{ marginBottom: '10px' }} disabled={isLoading}>
+        <button
+          type="submit"
+          className="btn btn-block"
+          style={{ marginBottom: "20px" }}
+          disabled={isLoading}
+        >
           {isLoading ? "loading..." : "submit"}
         </button>
         <GoogleLogin
           clientId="894180138604-40erqj87fcfaq40cbtgd39coi62fb9v5.apps.googleusercontent.com"
           buttonText="Login with Google"
-          style={{ position: 'absolute', bottom: '50%', left: '50%', transform: 'translate(-50%, 50%)' }}
           onSuccess={onSuccess}
           onFailure={onFailure}
-          cookiePolicy={'single_host_origin'}
+          cookiePolicy={"single_host_origin"}
+          className="w-100 btn-google"
         />
         <p>
           {values.isMember ? "Not a member yet?" : "Already a member?"}

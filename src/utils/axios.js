@@ -3,14 +3,14 @@ import { clearStore } from "../features/user/userSlice";
 import { getUserFromLocalStorage } from "./localStorage";
 
 export const urlBase =
-  //"http://ec2-15-188-207-170.eu-west-3.compute.amazonaws.com:8080";
-  "http://localhost:8080/api/v1";
+  `${process.env.REACT_APP_API_URL}/api/v1`;
 
 const customFetch = axios.create({
   baseURL: urlBase,
   headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}` 
-  }
+    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    "ngrok-skip-browser-warning": "69420",
+  },
 });
 
 /* customFetch.interceptors.request.use((config) => {
@@ -31,14 +31,14 @@ const customFetch = axios.create({
 // });
 
 customFetch.interceptors.request.use(
-  function(config) {
-    const accessToken = localStorage.getItem('accessToken');
+  function (config) {
+    const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
-  function(error) {
+  function (error) {
     return Promise.reject(error);
   }
 );
