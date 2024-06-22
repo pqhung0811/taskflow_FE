@@ -15,7 +15,7 @@ export default function FolderCard({ id, name, onClick, onDelete, date }) {
         }}
       >
         <Dropdown>
-          <DropdownButton as={ButtonGroup} title={<span />}>
+          <DropdownButton as={ButtonGroup} title={""}>
             <Dropdown.Item
               href="#"
               onClick={async (e) => {
