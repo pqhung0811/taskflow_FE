@@ -18,6 +18,7 @@ import Statistics from "./pages/dashboard/Statistics";
 import StatisticsProject from "./pages/dashboard/StatisticsProject";
 import FileShare from "./pages/FileShare";
 import ChangePassword from "./pages/ChangePassword";
+import TaskSchedule from "./pages/Schedule";
 // import CalendarComponent from "./components/CalendarComponent";
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route path="statistics-project" element={<StatisticsProject />}/>
           <Route path="fileshare" element={<FileShare />}/>
           <Route path="changepass" element={<ChangePassword />}/>
+          <Route path="schedule" element={<TaskSchedule />}/>
           {/* <Route path="calendar" element={<CalendarComponent />}/> */}
         </Route>
         <Route path="landing" element={<Landing />} />

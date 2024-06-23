@@ -3,6 +3,7 @@ import { FaProjectDiagram, FaBell } from "react-icons/fa";
 
 import { ImProfile } from "react-icons/im";
 import { FaTasks } from "react-icons/fa";
+import { MdSchedule } from 'react-icons/md';
 import { MdOutlineAddBox } from "react-icons/md";
 
 const links = [
@@ -17,6 +18,7 @@ const links = [
   { id: 4, text: "profile", path: "profile", icon: <ImProfile /> },
   { id: 5, text: "Notification", path: "notify", icon: <FaBell />},
   { id: 6, text: "Personal statistics", path: "statistics", icon: <IoBarChartSharp/> },
+  { id: 7, text: "Task scheduling support", path: "schedule", icon: <MdSchedule/> },
   // { id: 6, text: "Calendar", path: "calendar", icon: <FaCalendar />},
   /*{
     id: 5,

@@ -63,7 +63,12 @@ const Project = ({
       setTasks(data.tasks);
       }
     );
-
+  const formatDateTime = (dateTime) => {
+      const date = new Date(dateTime);
+      const formattedDate = date.toLocaleDateString('en-GB').replace(/\//g, '-');
+      const formattedTime = date.toLocaleTimeString('en-US', { hour12: false });
+      return `${formattedTime} day ${formattedDate}`;
+  };
   /*getUserImage(id) {
     fetch(`${urlBase}/image/info/${id}`)
       .then((response) => {
@@ -93,7 +98,7 @@ const Project = ({
       </header>
       <div className="content">
         <div className="content-center">
-          <ProjectInfo icon={<FaCalendarAlt />} text={`start date ${startDate}`} />
+          <ProjectInfo icon={<FaCalendarAlt />} text={`start date ${formatDateTime(startDate)}`} />
           <ProjectInfo
             icon={<FaBriefcase />}
             text={`from ${timePassed(startDate)} days`}
