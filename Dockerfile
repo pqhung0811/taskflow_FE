@@ -1,0 +1,103 @@
+# Sử dụng Node.js phiên bản LTS làm base image cho giai đoạn build
+FROM node:lts-alpine AS build
+
+# Thiết lập thư mục làm việc trong container
+WORKDIR /app
+
+# Sao chép file package.json và package-lock.json vào thư mục làm việc
+{
+  "name": "taskflow",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.6",
+    "@mui/styled-engine-sc": "^5.11.0",
+    "@reduxjs/toolkit": "^1.9.1",
+    "@stomp/stompjs": "^7.0.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "apexcharts": "^3.37.0",
+    "axios": "^1.2.1",
+    "bootstrap": "^5.2.3",
+    "chart.js": "^4.4.3",
+    "googleapis": "^137.1.0",
+    "mdb-react-ui-kit": "^5.1.0",
+    "mdbreact": "^5.2.0",
+    "moment": "^2.29.4",
+    "normalize.css": "^8.0.1",
+    "react": "^16.14.0",
+    "react-apexcharts": "^1.4.0",
+    "react-bootstrap": "^2.7.0",
+    "react-calendar": "^5.0.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-comments-section": "^2.0.10",
+    "react-confirm-alert": "^3.0.6",
+    "react-datepicker": "^4.8.0",
+    "react-dom": "^16.14.0",
+    "react-feather": "^2.0.10",
+    "react-google-calendar-api": "^2.3.0",
+    "react-google-login": "^5.2.2",
+    "react-icons": "^4.7.1",
+    "react-numeric-input": "^2.2.3",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.4.5",
+    "react-scripts": "5.0.1",
+    "react-toastify": "^9.1.1",
+    "react-trello": "^2.2.11",
+    "react-use-websocket": "^4.8.1",
+    "sockjs-client": "^1.6.1",
+    "styled-components": "^5.3.6",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "CI= react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+
+# Cài đặt các dependencies
+RUN npm install
+
+# Sao chép toàn bộ mã nguồn của ứng dụng React vào thư mục làm việc
+COPY . .
+
+# Build ứng dụng React
+RUN npm run build
+
+# Sử dụng Nginx làm base image cho giai đoạn phục vụ ứng dụng
+FROM nginx:alpine
+
+# Sao chép các file build từ giai đoạn trước vào thư mục phục vụ của Nginx
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Copy file cấu hình Nginx (nếu có)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Mở cổng mặc định của Nginx
+EXPOSE 80
+
+# Lệnh khởi động Nginx
+CMD ["nginx", "-g", "daemon off;"]

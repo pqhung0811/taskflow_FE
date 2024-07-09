@@ -6,11 +6,11 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const BarChart = ({ data, title }) => {
   const chartData = {
-    labels: Object.keys(data),
+    labels: data ? Object.keys(data) : [],
     datasets: [
       {
         label: title,
-        data: Object.values(data),
+        data: data ? Object.values(data) : [],
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',

@@ -63,35 +63,45 @@ function Register() {
   };
 
   const onSuccess = async (response) => {
-    const { tokenId } = response;
+    const tokenId = response.tokenId;
+    console.log('Login Success:', tokenId);
 
-    // Gửi tokenId đến backend để xác thực
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/api/v1/auth/google`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "69420",
-        },
-        body: JSON.stringify({ token: tokenId }),
-      }
-    );
+    try {
+        const res = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/v1/login/oauth2/google`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "ngrok-skip-browser-warning": "69420",
+                    'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+                },
+                body: JSON.stringify({ token: tokenId }),
+            }
+        );
 
-    const data = await res.json();
+        const data = await res.json();
 
-    if (data.success) {
-      // Lưu JWT token vào localStorage hoặc xử lý đăng nhập
-      localStorage.setItem("token", data.jwtToken);
-      console.log("Login successful:", data);
-    } else {
-      console.error("Login failed:", data.message);
+        if (data.success) {
+            localStorage.setItem("token", data.jwtToken);
+            console.log("Login successful:", data);
+        } else {
+            console.error("Login failed:", data.message);
+        }
+    } catch (error) {
+        console.error("Error:", error);
     }
-  };
+};
 
-  const onFailure = (response) => {
-    console.log("Login failed:", response);
-  };
+const onFailure = (response) => {
+    console.error("Login failed:", response);
+
+    if (response.error === "popup_closed_by_user") {
+        alert("Bạn đã đóng cửa sổ đăng nhập trước khi hoàn tất. Vui lòng thử lại.");
+    } else {
+        console.log("Login failed:", response);
+      }
+    };
 
   useEffect(() => {
     if (user) {
@@ -137,7 +147,7 @@ function Register() {
           {isLoading ? "loading..." : "submit"}
         </button>
         <GoogleLogin
-          clientId="894180138604-40erqj87fcfaq40cbtgd39coi62fb9v5.apps.googleusercontent.com"
+          clientId="894180138604-7kevalg7r8jgu1hfb1kjjfbceu4esobu.apps.googleusercontent.com"
           buttonText="Login with Google"
           onSuccess={onSuccess}
           onFailure={onFailure}
